@@ -14,6 +14,7 @@
   <header class="app-header">
     <h1>Signalanlæg</h1>
     <p class="subtitle">Kategoriseringsværktøj for master og signaler</p>
+    <span class="app-credit">NIL/KLO</span>
   </header>
 
   <main class="app-main">
@@ -104,8 +105,11 @@
     <!-- Stykliste -->
     <section class="card">
       <div class="card-header">
-        <h2>Stykliste</h2>
-        <div class="button-row">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <button class="btn-collapse" id="toggle-stykliste-btn">▸</button>
+          <h2 style="margin:0">Stykliste</h2>
+        </div>
+        <div class="button-row" id="stykliste-controls" style="display:none">
           <select id="stykliste-format">
             <option value="md">Markdown (.md)</option>
             <option value="txt">Tekst (.txt)</option>
@@ -113,7 +117,7 @@
           <button id="download-stykliste-btn" class="btn-secondary">Download stykliste</button>
         </div>
       </div>
-      <div id="stykliste-indhold">
+      <div id="stykliste-indhold" style="display:none">
         <p class="empty-state">Ingen varer tilføjet endnu.</p>
       </div>
     </section>
@@ -121,8 +125,11 @@
     <!-- Output -->
     <section class="card">
       <div class="card-header">
-        <h2>Output</h2>
-        <div class="button-row">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <button class="btn-collapse" id="toggle-output-btn">▸</button>
+          <h2 style="margin:0">Output</h2>
+        </div>
+        <div class="button-row" id="output-controls" style="display:none">
           <select id="format-vaelger">
             <option value="md">Markdown (.md)</option>
             <option value="txt">Tekst (.txt)</option>
@@ -131,8 +138,10 @@
           <button id="download-btn" class="btn-primary">Download</button>
         </div>
       </div>
-      <textarea id="output" readonly></textarea>
-      <p id="status-besked"></p>
+      <div id="output-indhold" style="display:none">
+        <textarea id="output" readonly></textarea>
+        <p id="status-besked"></p>
+      </div>
     </section>
 
   </main>

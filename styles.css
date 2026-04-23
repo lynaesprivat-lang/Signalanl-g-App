@@ -478,3 +478,12 @@ optgroup { font-weight: 600; }
 }
 
 .mast-body { }
+
+.app-credit {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-subtle);
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  font-family: 'DM Mono', monospace;
+}

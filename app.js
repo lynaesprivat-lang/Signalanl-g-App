@@ -408,6 +408,26 @@
 
   const STORAGE_PREFIX = 'signalanlaeg:';
 
+  // Holder styr på hvilke master er kollapsede (overlever re-render)
+  const collapsedMaster = new Set();
+
+  // Auto-gem timer
+  let autoGemTimer = null;
+  function planAutoGem() {
+    clearTimeout(autoGemTimer);
+    autoGemTimer = setTimeout(() => {
+      const idDel = state.nr.trim() || state.navn.trim();
+      if (!idDel) return;
+      const key = STORAGE_PREFIX + idDel.replace(/[^a-zA-Z0-9æøåÆØÅ_-]/g, '_');
+      try {
+        localStorage.setItem(key, JSON.stringify(state));
+        opdaterGemtListe();
+        $('gemte-anlaeg').value = key;
+        visBesked('✓ Auto-gemt');
+      } catch (err) { /* stille fejl */ }
+    }, 15000);
+  }
+
   // ==============================
   // State
   // ==============================
@@ -457,8 +477,21 @@
       container.innerHTML = '<section class="card"><p class="empty-state">Ingen master tilføjet endnu. Opret en ovenfor.</p></section>';
       return;
     }
-
     container.innerHTML = state.master.map((mast, mastIdx) => renderMastCard(mast, mastIdx)).join('');
+    // Gendan kollaps-state
+    state.master.forEach((mast, mastIdx) => {
+      if (collapsedMaster.has(mastIdx)) {
+        const card = container.querySelectorAll('.mast-card')[mastIdx];
+        if (!card) return;
+        const body = card.querySelector('.mast-body');
+        const summary = card.querySelector('.mast-summary');
+        const btn = card.querySelector('.btn-collapse');
+        if (body) body.style.display = 'none';
+        if (summary) summary.style.display = '';
+        if (btn) btn.textContent = '▸';
+        card.dataset.collapsed = 'true';
+      }
+    });
   }
 
   function renderMastCard(mast, mastIdx) {
@@ -757,6 +790,7 @@
     renderMaster();
     renderStykliste();
     opdaterOutput();
+    planAutoGem();
   }
 
   // ==============================
@@ -1082,6 +1116,9 @@
         }
       });
       opdaterFormFelter();
+      // Kollaps alle master ved indlæsning
+      collapsedMaster.clear();
+      state.master.forEach((_, i) => collapsedMaster.add(i));
       render();
       visBesked('✓ Anlæg indlæst');
     } catch (err) {
@@ -1163,8 +1200,8 @@
   // Event handlers
   // ==============================
   function tilkoblEvents() {
-    $('anlaeg-nr').addEventListener('input', e => { state.nr = e.target.value; opdaterOutput(); });
-    $('anlaeg-navn').addEventListener('input', e => { state.navn = e.target.value; opdaterOutput(); });
+    $('anlaeg-nr').addEventListener('input', e => { state.nr = e.target.value; opdaterOutput(); planAutoGem(); });
+    $('anlaeg-navn').addEventListener('input', e => { state.navn = e.target.value; opdaterOutput(); planAutoGem(); });
 
     $('nyt-anlaeg-btn').addEventListener('click', nytAnlaeg);
     $('tilfoej-mast-btn').addEventListener('click', tilfoejMast);
@@ -1177,6 +1214,28 @@
     $('import-json-input').addEventListener('change', e => {
       if (e.target.files[0]) importerJson(e.target.files[0]);
       e.target.value = '';
+    });
+
+    // Toggle stykliste
+    $('toggle-stykliste-btn').addEventListener('click', () => {
+      const indhold = $('stykliste-indhold');
+      const controls = $('stykliste-controls');
+      const btn = $('toggle-stykliste-btn');
+      const skjult = indhold.style.display === 'none';
+      indhold.style.display = skjult ? '' : 'none';
+      if (controls) controls.style.display = skjult ? '' : 'none';
+      btn.textContent = skjult ? '▾' : '▸';
+    });
+
+    // Toggle output
+    $('toggle-output-btn').addEventListener('click', () => {
+      const indhold = $('output-indhold');
+      const controls = $('output-controls');
+      const btn = $('toggle-output-btn');
+      const skjult = indhold.style.display === 'none';
+      indhold.style.display = skjult ? '' : 'none';
+      if (controls) controls.style.display = skjult ? '' : 'none';
+      btn.textContent = skjult ? '▾' : '▸';
     });
 
     $('format-vaelger').addEventListener('change', opdaterOutput);
@@ -1201,20 +1260,28 @@
       const body = card.querySelector('.mast-body');
       const summary = card.querySelector('.mast-summary');
       const collapsed = card.dataset.collapsed === 'true';
+      const mIdx2 = parseInt(t.dataset.mast);
       if (collapsed) {
         body.style.display = '';
         summary.style.display = 'none';
         t.textContent = '▾';
         card.dataset.collapsed = 'false';
+        collapsedMaster.delete(mIdx2);
       } else {
         body.style.display = 'none';
         summary.style.display = '';
         t.textContent = '▸';
         card.dataset.collapsed = 'true';
+        collapsedMaster.add(mIdx2);
       }
     } else if (action === 'del-mast') {
       if (confirm(`Slet ${state.master[mIdx].mastId} og alle dens signaler?`)) {
         state.master.splice(mIdx, 1);
+        // Opdater kollaps-indeks efter sletning
+        const nyCollapsed = new Set();
+        collapsedMaster.forEach(i => { if (i < mIdx) nyCollapsed.add(i); else if (i > mIdx) nyCollapsed.add(i - 1); });
+        collapsedMaster.clear();
+        nyCollapsed.forEach(i => collapsedMaster.add(i));
         render();
       }
     } else if (action === 'del-udstyr') {
