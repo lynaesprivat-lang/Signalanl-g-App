@@ -64,6 +64,9 @@
 
   const HOJDE_MULIGHEDER = ['', 'Højt', 'Lavt'];
 
+  // Varenumre der måles i meter
+  const KABEL_VARENUMRE = ['250-100-0362', '250-100-0363', '250-100-0365', '250-100-1997'];
+
   // ==============================
   // Varekatalog
   // ==============================
@@ -226,10 +229,13 @@
         { varenr: '167-650-0323', beskrivelse: 'Støtteholder sort', bem: '' },
         { varenr: '167-650-0231', beskrivelse: 'Top / bund uden støtteholder sort', bem: '' },
         { varenr: '167-650-0324', beskrivelse: 'Bundskrue kort top / bund sort', bem: '' },
+        { varenr: '270-500-3001', beskrivelse: 'Konsol nedafvendt DSI', bem: '' },
         { varenr: '270-500-3002', beskrivelse: 'Konsol opadvendt DSI', bem: '' },
         { varenr: '270-500-3003', beskrivelse: 'Konsol Universal DSI', bem: '' },
         { varenr: '270-500-3005', beskrivelse: 'DSI Tophætte', bem: '' },
         { varenr: '270-500-3006', beskrivelse: 'DSI Mellemhætte', bem: '' },
+        { varenr: '270-500-3008', beskrivelse: 'Ophæng Universal DSI', bem: '' },
+        { varenr: '270-500-3009', beskrivelse: 'Vægbeslag DSI', bem: '' },
       ]
     },
     {
@@ -459,20 +465,22 @@
     const udstyrHtml = (mast.udstyr && mast.udstyr.length > 0)
       ? mast.udstyr.map((u, uIdx) => {
           const vare = u.varenr ? findVare(u.varenr) : null;
+          const erKabel = KABEL_VARENUMRE.includes(u.varenr);
+          const antalLabel = erKabel && u.antal ? `${u.antal}m ` : '';
           const autoVarer = autoVarerForUdstyr(u);
           const autoHtml = autoVarer.map(v => {
             const autoVare = findVare(v.varenr);
-            const antalLabel = Number.isInteger(v.antal) ? `${v.antal}×` : `${v.antal}m`;
+            const aLabel = Number.isInteger(v.antal) ? `${v.antal}×` : `${v.antal}m`;
             return `<div class="auto-vare-row">
               <span class="auto-vare-ikon">↳</span>
-              <span class="auto-vare-label">${antalLabel} ${escapeHtml(autoVare ? autoVare.beskrivelse : v.varenr)}</span>
+              <span class="auto-vare-label">${aLabel} ${escapeHtml(autoVare ? autoVare.beskrivelse : v.varenr)}</span>
               <span class="badge badge-auto">auto</span>
             </div>`;
           }).join('');
           return `
             <div class="item-row">
               <span class="badge badge-warning">${escapeHtml(visVarenr(u.varenr) || u.type || '')}</span>
-              <span class="item-label">${escapeHtml(vare ? vare.beskrivelse : (u.type || ''))}</span>
+              <span class="item-label">${antalLabel}${escapeHtml(vare ? vare.beskrivelse : (u.type || ''))}</span>
               ${u.betegnelse ? `<span class="item-note">${escapeHtml(u.betegnelse)}</span>` : ''}
               <button class="btn-icon" data-action="del-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}">×</button>
             </div>
@@ -515,17 +523,26 @@
       ).join('')}</optgroup>`
     ).join('');
 
+    const signalerCount = mast.signaler.length;
+    const udstyrCount = (mast.udstyr || []).length;
+    const summary = [
+      signalerCount > 0 ? `${signalerCount} signal${signalerCount > 1 ? 'er' : ''}` : '',
+      udstyrCount > 0 ? `${udstyrCount} udstyr` : ''
+    ].filter(Boolean).join(', ');
+
     return `
-      <section class="mast-card">
+      <section class="mast-card" data-collapsed="false">
         <div class="mast-header">
-          <div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex:1;min-width:0;">
+            <button class="btn-collapse" data-action="toggle-mast" data-mast="${mastIdx}" title="Fold/unfold">▾</button>
             <span class="mast-title">${escapeHtml(mast.mastId)}</span>
             <span class="mast-subtype-label">${escapeHtml(mast.mastetype)}</span>
+            <span class="mast-summary" style="display:none">${escapeHtml(summary)}</span>
           </div>
           <button class="btn-icon" data-action="del-mast" data-mast="${mastIdx}">Slet mast</button>
         </div>
 
-        <div class="mast-section">
+        <div class="mast-body">
           <div class="mast-section-label">Signaltype</div>
           ${signalerHtml}
           <div class="add-form">
@@ -581,12 +598,17 @@
                 <option value="">— Vælg kategori først —</option>
               </select>
             </div>
+            <div class="field field-small" id="udstyr-meter-wrap-${mastIdx}" style="display:none">
+              <label>Meter</label>
+              <input type="number" data-field="udstyrantal" data-mast="${mastIdx}" placeholder="m" min="0.5" step="0.5" style="min-width:60px" />
+            </div>
             <div class="field">
               <label>Betegnelse (valgfri)</label>
               <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
             </div>
             <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
           </div>
+        </div>
         </div>
       </section>
     `;
@@ -822,6 +844,24 @@
       varer: [{ varenr: '250-650-0162', antal: 1 }]
     },
     {
+      beskrivelse: 'Heimdall radar → 4m Lanternekabel 5G1mm + 2× Spændbånd',
+      matcher: u => u.varenr === '167-665-0063' || u.varenr === '167-665-0065',
+      varer: [
+        { varenr: '250-100-0362', antal: 4 },
+        { varenr: '280-850-0009', antal: 2 },
+      ]
+    },
+    {
+      beskrivelse: 'Vægbeslag DSI → 1× Ophæng Universal DSI',
+      matcher: u => u.varenr === '270-500-3009',
+      varer: [{ varenr: '270-500-3008', antal: 1 }]
+    },
+    {
+      beskrivelse: 'Ophæng Universal DSI → 1× Vægbeslag DSI',
+      matcher: u => u.varenr === '270-500-3008',
+      varer: [{ varenr: '270-500-3009', antal: 1 }]
+    },
+    {
       beskrivelse: 'Smartmicro alle typer → 2× Spændbånd 130-150mm',
       matcher: u => ['250-650-0160', '250-650-0161', '250-650-0164', '250-650-0165', '250-650-0167'].includes(u.varenr),
       varer: [{ varenr: '280-850-0009', antal: 2 }]
@@ -857,7 +897,10 @@
     if (masteVarenr) tæller[masteVarenr] = (tæller[masteVarenr] || 0) + 1;
     // Manuelt tilføjet udstyr + auto-varer for udstyr
     (mast.udstyr || []).forEach(u => {
-      if (u.varenr) tæller[u.varenr] = (tæller[u.varenr] || 0) + 1;
+      if (u.varenr) {
+        const antal = (KABEL_VARENUMRE.includes(u.varenr) && u.antal) ? u.antal : 1;
+        tæller[u.varenr] = (tæller[u.varenr] || 0) + antal;
+      }
       autoVarerForUdstyr(u).forEach(v => {
         tæller[v.varenr] = (tæller[v.varenr] || 0) + v.antal;
       });
@@ -1152,7 +1195,23 @@
 
     const mIdx = parseInt(t.dataset.mast);
 
-    if (action === 'del-mast') {
+    if (action === 'toggle-mast') {
+      const card = t.closest('.mast-card');
+      const body = card.querySelector('.mast-body');
+      const summary = card.querySelector('.mast-summary');
+      const collapsed = card.dataset.collapsed === 'true';
+      if (collapsed) {
+        body.style.display = '';
+        summary.style.display = 'none';
+        t.textContent = '▾';
+        card.dataset.collapsed = 'false';
+      } else {
+        body.style.display = 'none';
+        summary.style.display = '';
+        t.textContent = '▸';
+        card.dataset.collapsed = 'true';
+      }
+    } else if (action === 'del-mast') {
       if (confirm(`Slet ${state.master[mIdx].mastId} og alle dens signaler?`)) {
         state.master.splice(mIdx, 1);
         render();
@@ -1169,10 +1228,14 @@
       const card = t.closest('.mast-card');
       const varenr = card.querySelector('[data-field="udstyrtype"]').value;
       const betegnelse = card.querySelector('[data-field="udstyrbetegnelse"]').value.trim();
+      const antalInput = card.querySelector('[data-field="udstyrantal"]');
+      const antal = antalInput && antalInput.value ? parseFloat(antalInput.value) : 1;
       if (!varenr) { visBesked('Vælg en vare først', 'danger'); return; }
       const vare = findVare(varenr);
-      state.master[mIdx].udstyr.push({ varenr, type: vare ? vare.beskrivelse : varenr, betegnelse });
+      const erKabel = KABEL_VARENUMRE.includes(varenr);
+      state.master[mIdx].udstyr.push({ varenr, type: vare ? vare.beskrivelse : varenr, betegnelse, antal: erKabel ? antal : 1 });
       card.querySelector('[data-field="udstyrbetegnelse"]').value = '';
+      if (antalInput) antalInput.value = '';
       render();
     } else if (action === 'add-signal') {
       const card = t.closest('.mast-card');
@@ -1239,6 +1302,10 @@
           .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.beskrivelse)}</option>`)
           .join('');
         vareSelect.disabled = false;
+        // Vis meter-felt hvis første vare er kabel
+        const meterWrap = card.querySelector(`#udstyr-meter-wrap-${mIdx}`);
+        const erKabel = kat.varer.length > 0 && KABEL_VARENUMRE.includes(kat.varer[0].varenr);
+        if (meterWrap) meterWrap.style.display = erKabel ? '' : 'none';
       } else {
         underWrap.style.display = 'none';
         vareSelect.innerHTML = '<option value="">— Vælg kategori først —</option>';
@@ -1257,6 +1324,10 @@
           .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.beskrivelse)}</option>`)
           .join('');
         vareSelect.disabled = false;
+        const mIdx2 = parseInt(t.dataset.mast);
+        const meterWrap2 = card.querySelector(`#udstyr-meter-wrap-${mIdx2}`);
+        const erKabel2 = under.varer.length > 0 && KABEL_VARENUMRE.includes(under.varer[0].varenr);
+        if (meterWrap2) meterWrap2.style.display = erKabel2 ? '' : 'none';
       } else {
         vareSelect.innerHTML = '<option value="">— Ingen varer endnu —</option>';
         vareSelect.disabled = true;
