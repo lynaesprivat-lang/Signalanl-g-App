@@ -1215,7 +1215,7 @@
         underWrap.style.display = 'none';
         underSelect.disabled = true;
         vareSelect.innerHTML = kat.varer
-          .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.varenr)} – ${escapeHtml(v.beskrivelse)}</option>`)
+          .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.beskrivelse)}</option>`)
           .join('');
         vareSelect.disabled = false;
       } else {
@@ -1233,7 +1233,7 @@
       const under = kat && kat.underkategorier ? kat.underkategorier.find(u => u.navn === valgtUnder) : null;
       if (under && under.varer.length > 0) {
         vareSelect.innerHTML = under.varer
-          .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.varenr)} – ${escapeHtml(v.beskrivelse)}</option>`)
+          .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.beskrivelse)}</option>`)
           .join('');
         vareSelect.disabled = false;
       } else {
