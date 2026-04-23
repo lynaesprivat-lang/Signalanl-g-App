@@ -221,6 +221,8 @@
         { varenr: '167-650-0324', beskrivelse: 'Bundskrue kort top / bund sort', bem: '' },
         { varenr: '270-500-3002', beskrivelse: 'Konsol opadvendt DSI', bem: '' },
         { varenr: '270-500-3003', beskrivelse: 'Konsol Universal DSI', bem: '' },
+        { varenr: '270-500-3005', beskrivelse: 'DSI Tophætte', bem: '' },
+        { varenr: '270-500-3006', beskrivelse: 'DSI Mellemhætte', bem: '' },
       ]
     },
     {
@@ -257,6 +259,7 @@
       varer: [
         { varenr: '167-665-0063', beskrivelse: 'Heimdall 24V radar Stopline', bem: '' },
         { varenr: '167-665-0065', beskrivelse: 'Heimdall 24V Fodgænger', bem: '' },
+        { varenr: '167-665-0066', beskrivelse: 'Tilslutningsboks til Heimdall', bem: '' },
       ]
     },
     {
@@ -297,6 +300,12 @@
         { varenr: '', beskrivelse: 'GL. Swarco 37 leder', bem: '' },
         { varenr: '', beskrivelse: 'Nyere Swarco 27 leder', bem: '' },
         { varenr: '', beskrivelse: 'Nyere Swarco 37 leder', bem: '' },
+      ]
+    },
+    {
+      kategori: 'Diverse',
+      varer: [
+        { varenr: '167-650-0685', beskrivelse: 'Baggrundsplade Siemens', bem: '' },
       ]
     },
 
