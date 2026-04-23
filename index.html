@@ -51,6 +51,7 @@
       </div>
       <div class="button-row">
         <button id="export-json-btn" class="btn-secondary">Eksportér alle anlæg (JSON)</button>
+        <button id="export-json-enkelt-btn" class="btn-secondary">Eksportér dette anlæg (JSON)</button>
         <label for="import-json-input" class="btn-secondary btn-label">Importér JSON</label>
         <input type="file" id="import-json-input" accept="application/json" hidden />
       </div>
@@ -102,26 +103,6 @@
     <!-- Mast-liste -->
     <section id="master-liste"></section>
 
-    <!-- Stykliste -->
-    <section class="card">
-      <div class="card-header">
-        <div style="display:flex;align-items:center;gap:0.5rem;">
-          <button class="btn-collapse" id="toggle-stykliste-btn">▸</button>
-          <h2 style="margin:0">Stykliste</h2>
-        </div>
-        <div class="button-row" id="stykliste-controls" style="display:none">
-          <select id="stykliste-format">
-            <option value="md">Markdown (.md)</option>
-            <option value="txt">Tekst (.txt)</option>
-          </select>
-          <button id="download-stykliste-btn" class="btn-secondary">Download stykliste</button>
-        </div>
-      </div>
-      <div id="stykliste-indhold" style="display:none">
-        <p class="empty-state">Ingen varer tilføjet endnu.</p>
-      </div>
-    </section>
-
     <!-- Output -->
     <section class="card">
       <div class="card-header">
@@ -136,6 +117,11 @@
           </select>
           <button id="kopier-btn" class="btn-secondary">Kopiér</button>
           <button id="download-btn" class="btn-primary">Download</button>
+          <select id="stykliste-format">
+            <option value="md">Stykliste .md</option>
+            <option value="txt">Stykliste .txt</option>
+          </select>
+          <button id="download-stykliste-btn" class="btn-secondary">Download stykliste</button>
         </div>
       </div>
       <div id="output-indhold" style="display:none">

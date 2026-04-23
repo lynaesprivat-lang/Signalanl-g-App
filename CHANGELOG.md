@@ -2,6 +2,41 @@
 
 ---
 
+## v56.5
+- **Auto-regel: Lanterne 4-felt polsk pissignal** → 2m Lanternekabel 7G1mm Sort (250-100-0365)
+- **Redigér udstyr** — kategori og vare-dropdown (varer opdateres live ved kategori-skift)
+- **Stykliste format** — kategorier som tekstliste øverst, samlet tabel med alle varer nederst
+
+## v56.4
+- **Stykliste tabel** — padded ASCII tabel med faste kolonnebredder i txt, pæn markdown-tabel i md
+- **Stykliste kun samlet** — ingen mast-opdeling, kun total oversigt pr. kategori
+- **Rettet: Slet signal** virkede ikke
+- **Rettet: Redigér signal** — nu med dropdown for kategori og signaltype (opdateres live), plus højde
+- **Opeka DSI** — "DSI signal" omdøbt til Opeka DSI
+
+## v56.3
+- Stykliste vises ikke længere på skærmen — kun download-knap i output-sektionen
+- Stykliste format-valg og download-knap er nu samlet med output-knapperne
+
+## v56.2
+- Rettet: Signal og udstyr sektioner lukkede sig igen når man ændrede en dropdown — åben/lukket state bevares nu på tværs af re-renders
+
+## v56.1
+- Rettet: Signal og udstyr sektioner kunne ikke åbnes — klik på tekst/badge bobler nu korrekt til toggle
+
+## v56
+- **Nye signalgrupper:** Opeka 2 punkt, DSI signal, Atki DSI, Atki 2 punkt, Glødepære 2 punkt, Glødepære DSI (alle med 4/3/2/1-felt)
+- **Signal og udstyr sektioner starter minimerede** — tryk ▸ for at åbne, viser antal som badge
+- **Stykliste omskrevet** — samlet oversigt på tværs af alle master, rent og overskueligt design
+- **Eksportér dette anlæg** — ny knap der kun eksporterer det aktive anlæg som JSON
+- Kabler vises altid i meter i styklisten (rettet)
+
+## v55.3
+- Rettet: Kabler vises nu altid i meter (m) i stykliste og output — ikke stk.
+
+## v55.2
+- Rettet: Højde-valg på signal virkede ikke — select fik forkert værdi fordi redigér-formen brugte samme felt-navn
+
 ## v55.1
 - **Auto-regel: Forlænger arm** → automatisk 1× Forlænger arm til Radar (250-650-0148) når udstyr monteres på arm
 - Max 1 arm pr. mast — vises kun én gang i styklisten selvom flere enheder sidder på samme arm

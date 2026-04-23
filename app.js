@@ -36,18 +36,72 @@
     {
       kategori: 'Swarco AluStar DSI',
       typer: [
-        { label: 'AluStar DSI 4-lys', varenr: '' },
-        { label: 'AluStar DSI 3-felt', varenr: '' },
-        { label: 'AluStar DSI 2-felt fodgænger', varenr: '' },
-        { label: 'AluStar DSI 1-felt', varenr: '' },
+        { label: 'AluStar DSI 4-lys',              varenr: '' },
+        { label: 'AluStar DSI 3-felt',             varenr: '' },
+        { label: 'AluStar DSI 2-felt fodgænger',   varenr: '' },
+        { label: 'AluStar DSI 1-felt',             varenr: '' },
       ]
     },
     {
       kategori: 'Swarco AluStar 2 punkt',
       typer: [
-        { label: 'AluStar 2 punkt 3-felt', varenr: '' },
-        { label: 'AluStar 2 punkt 2-felt fodgænger', varenr: '' },
-        { label: 'AluStar 2 punkt 1-felt', varenr: '' },
+        { label: 'AluStar 2 punkt 3-felt',             varenr: '' },
+        { label: 'AluStar 2 punkt 2-felt fodgænger',   varenr: '' },
+        { label: 'AluStar 2 punkt 1-felt',             varenr: '' },
+      ]
+    },
+    {
+      kategori: 'Opeka 2 punkt',
+      typer: [
+        { label: 'Opeka 2 punkt 4-felt',           varenr: 'INTERN-SIG-OP2-4' },
+        { label: 'Opeka 2 punkt 3-felt',           varenr: 'INTERN-SIG-OP2-3' },
+        { label: 'Opeka 2 punkt 2-felt',           varenr: 'INTERN-SIG-OP2-2' },
+        { label: 'Opeka 2 punkt 1-felt',           varenr: 'INTERN-SIG-OP2-1' },
+      ]
+    },
+    {
+      kategori: 'Opeka DSI',
+      typer: [
+        { label: 'Opeka DSI 4-felt',               varenr: 'INTERN-SIG-DSI-4' },
+        { label: 'Opeka DSI 3-felt',               varenr: 'INTERN-SIG-DSI-3' },
+        { label: 'Opeka DSI 2-felt',               varenr: 'INTERN-SIG-DSI-2' },
+        { label: 'Opeka DSI 1-felt',               varenr: 'INTERN-SIG-DSI-1' },
+      ]
+    },
+    {
+      kategori: 'Atki DSI',
+      typer: [
+        { label: 'Atki DSI 4-felt',                varenr: 'INTERN-SIG-ATKIDSI-4' },
+        { label: 'Atki DSI 3-felt',                varenr: 'INTERN-SIG-ATKIDSI-3' },
+        { label: 'Atki DSI 2-felt',                varenr: 'INTERN-SIG-ATKIDSI-2' },
+        { label: 'Atki DSI 1-felt',                varenr: 'INTERN-SIG-ATKIDSI-1' },
+      ]
+    },
+    {
+      kategori: 'Atki 2 punkt',
+      typer: [
+        { label: 'Atki 2 punkt 4-felt',            varenr: 'INTERN-SIG-ATKI2-4' },
+        { label: 'Atki 2 punkt 3-felt',            varenr: 'INTERN-SIG-ATKI2-3' },
+        { label: 'Atki 2 punkt 2-felt',            varenr: 'INTERN-SIG-ATKI2-2' },
+        { label: 'Atki 2 punkt 1-felt',            varenr: 'INTERN-SIG-ATKI2-1' },
+      ]
+    },
+    {
+      kategori: 'Glødepære 2 punkt',
+      typer: [
+        { label: 'Glødepære 2 punkt 4-felt',       varenr: 'INTERN-SIG-GL2-4' },
+        { label: 'Glødepære 2 punkt 3-felt',       varenr: 'INTERN-SIG-GL2-3' },
+        { label: 'Glødepære 2 punkt 2-felt',       varenr: 'INTERN-SIG-GL2-2' },
+        { label: 'Glødepære 2 punkt 1-felt',       varenr: 'INTERN-SIG-GL2-1' },
+      ]
+    },
+    {
+      kategori: 'Glødepære DSI',
+      typer: [
+        { label: 'Glødepære DSI 4-felt',           varenr: 'INTERN-SIG-GLDSI-4' },
+        { label: 'Glødepære DSI 3-felt',           varenr: 'INTERN-SIG-GLDSI-3' },
+        { label: 'Glødepære DSI 2-felt',           varenr: 'INTERN-SIG-GLDSI-2' },
+        { label: 'Glødepære DSI 1-felt',           varenr: 'INTERN-SIG-GLDSI-1' },
       ]
     },
     {
@@ -444,6 +498,9 @@
 
   // Holder styr på hvilke master er kollapsede (overlever re-render)
   const collapsedMaster = new Set();
+  // Holder styr på åbne signal/udstyr sektioner pr. mast
+  const openSigSections = new Set();
+  const openUdstyrSections = new Set();
 
   // Mast-filter til output (null = alle)
   let mastFilter = null;
@@ -539,7 +596,7 @@
       return;
     }
     container.innerHTML = state.master.map((mast, mastIdx) => renderMastCard(mast, mastIdx)).join('');
-    // Gendan kollaps-state
+    // Gendan kollaps-state for master
     state.master.forEach((mast, mastIdx) => {
       if (collapsedMaster.has(mastIdx)) {
         const card = container.querySelectorAll('.mast-card')[mastIdx];
@@ -551,6 +608,21 @@
         if (summary) summary.style.display = '';
         if (btn) btn.textContent = '▸';
         card.dataset.collapsed = 'true';
+      }
+      // Gendan åbne signal/udstyr sektioner
+      const card = container.querySelectorAll('.mast-card')[mastIdx];
+      if (!card) return;
+      if (openSigSections.has(mastIdx)) {
+        const body = card.querySelector('.sig-section-body');
+        const arrow = card.querySelector('.mast-section-toggle[data-action="toggle-sig-section"] .btn-collapse');
+        if (body) body.style.display = '';
+        if (arrow) arrow.textContent = '▾';
+      }
+      if (openUdstyrSections.has(mastIdx)) {
+        const body = card.querySelector('.udstyr-section-body');
+        const arrow = card.querySelector('.mast-section-toggle[data-action="toggle-udstyr-section"] .btn-collapse');
+        if (body) body.style.display = '';
+        if (arrow) arrow.textContent = '▾';
       }
     });
   }
@@ -583,6 +655,14 @@
               <div class="item-row rediger-row">
                 <span class="rediger-label">Redigerer udstyr:</span>
                 <div class="add-form">
+                  <div class="field"><label>Kategori</label>
+                    <select data-rediger-u="kategori" data-mast="${mastIdx}" data-udstyr="${uIdx}">
+                      ${UDSTYR_MENU.map(k => `<option value="${escapeHtml(k.kategori)}"${k.kategori === (findVareKategoriNavn(u.varenr)) ? ' selected' : ''}>${escapeHtml(k.kategori)}</option>`).join('')}
+                    </select></div>
+                  <div class="field"><label>Vare</label>
+                    <select data-rediger-u="varenr" data-mast="${mastIdx}" data-udstyr="${uIdx}">
+                      ${(findVareKategoriVarer(u.varenr) || []).filter(v => !v.varenr.startsWith('INTERN-')).map(v => `<option value="${escapeHtml(v.varenr)}"${v.varenr === u.varenr ? ' selected' : ''}>${escapeHtml(v.beskrivelse)}</option>`).join('')}
+                    </select></div>
                   <div class="field field-small"><label>Antal</label>
                     <input type="number" data-rediger-u="antal" data-mast="${mastIdx}" data-udstyr="${uIdx}" value="${u.antal || 1}" min="0.5" step="0.5" /></div>
                   <div class="field"><label>Betegnelse</label>
@@ -650,10 +730,21 @@
             const hojdeOpts = HOJDE_MULIGHEDER.map(h =>
               `<option value="${escapeHtml(h)}"${h === sig.hojde ? ' selected' : ''}>${h || '—'}</option>`
             ).join('');
+            const katOpts = SIGNAL_KATEGORIER.map(k =>
+              `<option value="${escapeHtml(k.kategori)}"${k.kategori === sig.kategori ? ' selected' : ''}>${escapeHtml(k.kategori)}</option>`
+            ).join('');
+            const valgtKat = SIGNAL_KATEGORIER.find(k => k.kategori === sig.kategori);
+            const typeOpts = valgtKat ? valgtKat.typer.map(ty =>
+              `<option value="${escapeHtml(ty.label)}"${ty.label === sig.type ? ' selected' : ''}>${escapeHtml(ty.label)}</option>`
+            ).join('') : `<option value="${escapeHtml(sig.type)}">${escapeHtml(sig.type)}</option>`;
             return `
               <div class="item-row rediger-row">
                 <span class="rediger-label">Redigerer signal:</span>
                 <div class="add-form">
+                  <div class="field"><label>Kategori</label>
+                    <select data-rediger-sig="kategori" data-mast="${mastIdx}" data-sig="${sigIdx}">${katOpts}</select></div>
+                  <div class="field"><label>Type</label>
+                    <select data-rediger-sig="type" data-mast="${mastIdx}" data-sig="${sigIdx}">${typeOpts}</select></div>
                   <div class="field field-small"><label>Betegnelse</label>
                     <input type="text" data-rediger-sig="betegnelse" data-mast="${mastIdx}" data-sig="${sigIdx}" value="${escapeHtml(sig.betegnelse || '')}" /></div>
                   <div class="field field-small"><label>Højde</label>
@@ -759,81 +850,91 @@
 
         <div class="mast-body">
           <div class="mast-section">
-            <div class="mast-section-label">Signaltype</div>
-            ${signalerHtml}
-            <div class="add-form">
-              <div class="field">
-                <label>Kategori</label>
-                <select data-field="signalkategori" data-mast="${mastIdx}">
-                  <option value="">— Vælg kategori —</option>
-                  ${SIGNAL_KATEGORIER.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
-                </select>
+            <div class="mast-section-toggle" data-action="toggle-sig-section" data-mast="${mastIdx}" style="cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none">
+              <span class="btn-collapse" style="font-size:14px">▸</span>
+              <span class="mast-section-label" style="margin:0">Signaler ${mast.signaler.length > 0 ? `<span class="badge" style="font-size:10px;padding:1px 7px">${mast.signaler.length}</span>` : ''}</span>
+            </div>
+            <div class="sig-section-body" style="display:none">
+              ${signalerHtml}
+              <div class="add-form">
+                <div class="field">
+                  <label>Kategori</label>
+                  <select data-field="signalkategori" data-mast="${mastIdx}">
+                    <option value="">— Vælg kategori —</option>
+                    ${SIGNAL_KATEGORIER.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Præcis type</label>
+                  <select data-field="signaltype" data-mast="${mastIdx}" disabled>
+                    <option value="">— Vælg kategori først —</option>
+                  </select>
+                </div>
+                <div class="field field-small">
+                  <label>Betegnelse</label>
+                  <input type="text" data-field="betegnelse" data-mast="${mastIdx}" placeholder="A1H" />
+                </div>
+                <div class="field field-small">
+                  <label>Højde</label>
+                  <select data-field="ny-hojde" data-mast="${mastIdx}">${hojdeOptions}</select>
+                </div>
+                <div class="field">
+                  <label>Note</label>
+                  <input type="text" data-field="note" data-mast="${mastIdx}" placeholder="(valgfri)" />
+                </div>
+                <button class="btn-secondary" data-action="add-signal" data-mast="${mastIdx}">+ Tilføj signal</button>
               </div>
-              <div class="field">
-                <label>Præcis type</label>
-                <select data-field="signaltype" data-mast="${mastIdx}" disabled>
-                  <option value="">— Vælg kategori først —</option>
-                </select>
-              </div>
-              <div class="field field-small">
-                <label>Betegnelse</label>
-                <input type="text" data-field="betegnelse" data-mast="${mastIdx}" placeholder="A1H" />
-              </div>
-              <div class="field field-small">
-                <label>Højde</label>
-                <select data-field="hojde" data-mast="${mastIdx}">${hojdeOptions}</select>
-              </div>
-              <div class="field">
-                <label>Note</label>
-                <input type="text" data-field="note" data-mast="${mastIdx}" placeholder="(valgfri)" />
-              </div>
-              <button class="btn-secondary" data-action="add-signal" data-mast="${mastIdx}">+ Tilføj signal</button>
             </div>
           </div>
 
           <div class="mast-section">
-            <div class="mast-section-label">Ekstra udstyr</div>
-            ${udstyrHtml}
-            <div class="add-form">
-              <div class="field">
-                <label>Kategori</label>
-                <select data-field="udstyrkategori" data-mast="${mastIdx}">
-                  <option value="">— Vælg kategori —</option>
-                  ${UDSTYR_MENU.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
-                </select>
+            <div class="mast-section-toggle" data-action="toggle-udstyr-section" data-mast="${mastIdx}" style="cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none">
+              <span class="btn-collapse" style="font-size:14px">▸</span>
+              <span class="mast-section-label" style="margin:0">Ekstra udstyr ${(mast.udstyr||[]).length > 0 ? `<span class="badge badge-warning" style="font-size:10px;padding:1px 7px">${mast.udstyr.length}</span>` : ''}</span>
+            </div>
+            <div class="udstyr-section-body" style="display:none">
+              ${udstyrHtml}
+              <div class="add-form">
+                <div class="field">
+                  <label>Kategori</label>
+                  <select data-field="udstyrkategori" data-mast="${mastIdx}">
+                    <option value="">— Vælg kategori —</option>
+                    ${UDSTYR_MENU.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="field" id="udstyr-under-wrap-${mastIdx}" style="display:none">
+                  <label>Underkategori</label>
+                  <select data-field="udstyrunderkategori" data-mast="${mastIdx}" disabled>
+                    <option value="">— Vælg underkategori —</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Vare</label>
+                  <select data-field="udstyrtype" data-mast="${mastIdx}" disabled>
+                    <option value="">— Vælg kategori først —</option>
+                  </select>
+                </div>
+                <div class="field field-small" id="udstyr-meter-wrap-${mastIdx}" style="display:none">
+                  <label>Meter</label>
+                  <input type="number" data-field="udstyrmeter" data-mast="${mastIdx}" placeholder="m" min="0.5" step="0.5" style="min-width:60px" />
+                </div>
+                <div class="field field-small" id="udstyr-antal-wrap-${mastIdx}">
+                  <label>Antal</label>
+                  <input type="number" data-field="udstyrantal" data-mast="${mastIdx}" placeholder="1" min="1" step="1" value="1" style="min-width:60px" />
+                </div>
+                <div class="field field-small" id="udstyr-arm-wrap-${mastIdx}" style="display:none">
+                  <label>På arm?</label>
+                  <select data-field="udstyrarm" data-mast="${mastIdx}">
+                    <option value="nej">Nej</option>
+                    <option value="ja">Ja</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Betegnelse (valgfri)</label>
+                  <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
+                </div>
+                <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
               </div>
-              <div class="field" id="udstyr-under-wrap-${mastIdx}" style="display:none">
-                <label>Underkategori</label>
-                <select data-field="udstyrunderkategori" data-mast="${mastIdx}" disabled>
-                  <option value="">— Vælg underkategori —</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Vare</label>
-                <select data-field="udstyrtype" data-mast="${mastIdx}" disabled>
-                  <option value="">— Vælg kategori først —</option>
-                </select>
-              </div>
-              <div class="field field-small" id="udstyr-meter-wrap-${mastIdx}" style="display:none">
-                <label>Meter</label>
-                <input type="number" data-field="udstyrmeter" data-mast="${mastIdx}" placeholder="m" min="0.5" step="0.5" style="min-width:60px" />
-              </div>
-              <div class="field field-small" id="udstyr-antal-wrap-${mastIdx}">
-                <label>Antal</label>
-                <input type="number" data-field="udstyrantal" data-mast="${mastIdx}" placeholder="1" min="1" step="1" value="1" style="min-width:60px" />
-              </div>
-              <div class="field field-small" id="udstyr-arm-wrap-${mastIdx}" style="display:none">
-                <label>På arm?</label>
-                <select data-field="udstyrarm" data-mast="${mastIdx}">
-                  <option value="nej">Nej</option>
-                  <option value="ja">Ja</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Betegnelse (valgfri)</label>
-                <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
-              </div>
-              <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
             </div>
           </div>
         </div>
@@ -998,7 +1099,6 @@
 
   function render() {
     renderMaster();
-    renderStykliste();
     renderMastFilter();
     opdaterOutput();
     planAutoGem();
@@ -1057,6 +1157,11 @@
       beskrivelse: 'Højt signal → 5m Lanternekabel 5G1mm Sort',
       matcher: sig => sig.hojde === 'Højt',
       varer: [{ varenr: '250-100-0362', antal: 5 }]
+    },
+    {
+      beskrivelse: 'Lanterne 4-felt polsk pissignal → 2m Lanternekabel 7G1mm Sort',
+      matcher: sig => sig.varenr === '167-250-0501',
+      varer: [{ varenr: '250-100-0365', antal: 2 }]
     },
   ];
 
@@ -1149,6 +1254,20 @@
     }
 
     return result;
+  }
+
+  // Find kategorinavn for et varenr
+  function findVareKategoriNavn(varenr) {
+    for (const kat of VAREKATALOG) {
+      if (kat.underkategorier) {
+        for (const under of kat.underkategorier) {
+          if (under.varer.find(v => v.varenr === varenr)) return kat.kategori;
+        }
+      } else if (kat.varer) {
+        if (kat.varer.find(v => v.varenr === varenr)) return kat.kategori;
+      }
+    }
+    return null;
   }
 
   // Find alle varer i samme kategori som et givet varenr (til dropdown)
@@ -1245,47 +1364,42 @@
       return;
     }
 
-    const harVarer = state.master.some(m => {
-      const tæller = beregnStyklistePrMast(m);
-      return Object.keys(tæller).length > 0;
+    // Samlet tæller på tværs af alle master
+    const total = {};
+    state.master.forEach(mast => {
+      Object.entries(beregnStyklistePrMast(mast)).forEach(([varenr, antal]) => {
+        total[varenr] = (total[varenr] || 0) + antal;
+      });
     });
-    if (!harVarer) {
-      container.innerHTML = '<p class="empty-state">Ingen varer tilføjet på nogen mast endnu.</p>';
+
+    if (Object.keys(total).length === 0) {
+      container.innerHTML = '<p class="empty-state">Ingen varer tilføjet endnu.</p>';
       return;
     }
 
-    container.innerHTML = state.master.map(mast => {
-      const tæller = beregnStyklistePrMast(mast);
-      const varenumre = Object.keys(tæller);
-      if (varenumre.length === 0) return '';
-
-      const grupperHtml = VAREKATALOG.map(kat => {
-        // Hent alle varer fra kategorien (inkl. underkategorier)
-        const alleVarer = kat.underkategorier
-          ? kat.underkategorier.flatMap(u => u.varer)
-          : (kat.varer || []);
-
-        const rækker = alleVarer
-          .filter(v => tæller[v.varenr])
-          .map(v => `
-            <div class="item-row">
-              <span class="badge badge-warning">${escapeHtml(v.varenr)}</span>
-              <span class="item-label">${escapeHtml(v.beskrivelse)}</span>
-              ${v.bem ? `<span class="item-note">${escapeHtml(v.bem)}</span>` : ''}
-              <span class="stykliste-antal">${Number.isInteger(tæller[v.varenr]) ? tæller[v.varenr] + ' stk.' : tæller[v.varenr] + ' m'}</span>
-            </div>
-          `).join('');
-        if (!rækker) return '';
-        return `<div class="stykliste-gruppe"><div class="mast-section-label">${escapeHtml(kat.kategori)}</div>${rækker}</div>`;
-      }).join('');
-
+    // Vis pr. kategori
+    const grupperHtml = VAREKATALOG.map(kat => {
+      const alleVarer = kat.underkategorier
+        ? kat.underkategorier.flatMap(u => u.varer)
+        : (kat.varer || []);
+      const rækker = alleVarer.filter(v => total[v.varenr]);
+      if (rækker.length === 0) return '';
       return `
-        <div class="stykliste-mast">
-          <div class="stykliste-mast-titel">${escapeHtml(mast.mastId)} – ${escapeHtml(mast.mastetype)}</div>
-          ${grupperHtml}
-        </div>
-      `;
+        <div class="stykliste-gruppe">
+          <div class="stykliste-kat-label">${escapeHtml(kat.kategori)}</div>
+          ${rækker.map(v => {
+            const erKabel = KABEL_VARENUMRE.includes(v.varenr);
+            const antalVis = erKabel ? total[v.varenr] + ' m' : total[v.varenr] + ' stk.';
+            return `<div class="stykliste-row">
+              <span class="stykliste-varenr">${escapeHtml(visVarenr(v.varenr) || '—')}</span>
+              <span class="stykliste-beskrivelse">${escapeHtml(v.beskrivelse)}</span>
+              <span class="stykliste-antal">${antalVis}</span>
+            </div>`;
+          }).join('')}
+        </div>`;
     }).join('');
+
+    container.innerHTML = grupperHtml || '<p class="empty-state">Ingen kendte varer.</p>';
   }
 
   function generateStyklisteMarkdown() {
@@ -1295,48 +1409,48 @@
       ? `Stykliste – Anlæg ${nummer}${state.navn ? ' – ' + state.navn : ''}`
       : `Stykliste – ${state.navn || 'Anlæg'}`;
     let md = `# ${titel}\n\n`;
-    md += `**Dato:** ${dato}\n\n`;
+    md += `**Dato:** ${dato}  **Master:** ${state.master.length}\n\n`;
 
-    const masterMedVarer = state.master.filter(m => m.udstyr && m.udstyr.length > 0);
-    if (masterMedVarer.length === 0) {
-      md += '_Ingen varer._\n';
-      return md;
-    }
-
-    masterMedVarer.forEach(mast => {
-      md += `## ${mast.mastId} – ${mast.mastetype}\n\n`;
-      const tæller = beregnStyklistePrMast(mast);
-      let harRækker = false;
-      VAREKATALOG.forEach(kat => {
-        const varer = kat.varer.filter(v => tæller[v.varenr]);
-        if (varer.length === 0) return;
-        if (!harRækker) harRækker = true;
-        md += `### ${kat.kategori}\n\n`;
-        md += '| Varenr. | Beskrivelse | Antal |\n';
-        md += '| ------- | ----------- | ----- |\n';
-        varer.forEach(v => {
-          md += `| ${v.varenr} | ${v.beskrivelse}${v.bem ? ' – ' + v.bem : ''} | ${tæller[v.varenr]} stk. |\n`;
-        });
-        md += '\n';
-      });
-    });
-
-    // Samlet totaloversigt
-    md += '---\n\n## Samlet totaloversigt\n\n';
     const total = {};
     state.master.forEach(mast => {
       Object.entries(beregnStyklistePrMast(mast)).forEach(([varenr, antal]) => {
         total[varenr] = (total[varenr] || 0) + antal;
       });
     });
-    if (Object.keys(total).length > 0) {
-      md += '| Varenr. | Beskrivelse | Total antal |\n';
-      md += '| ------- | ----------- | ----------- |\n';
-      Object.entries(total).forEach(([varenr, antal]) => {
-        const vare = findVare(varenr);
-        md += `| ${varenr} | ${vare ? vare.beskrivelse : varenr} | ${antal} stk. |\n`;
+
+    if (Object.keys(total).length === 0) { md += '_Ingen varer._\n'; return md; }
+
+    // DEL 1: Kategorier med varer
+    VAREKATALOG.forEach(kat => {
+      const alleVarer = kat.underkategorier
+        ? kat.underkategorier.flatMap(u => u.varer)
+        : (kat.varer || []);
+      const varer = alleVarer.filter(v => total[v.varenr]);
+      if (varer.length === 0) return;
+      md += `### ${kat.kategori}\n\n`;
+      varer.forEach(v => {
+        const erKabel = KABEL_VARENUMRE.includes(v.varenr);
+        const antalVis = erKabel ? total[v.varenr] + ' m' : total[v.varenr] + ' stk.';
+        const vn = visVarenr(v.varenr) || '—';
+        md += `- \`${vn}\` ${v.beskrivelse} — **${antalVis}**\n`;
       });
-    }
+      md += '\n';
+    });
+
+    // DEL 2: Samlet tabel
+    md += '---\n\n## Samlet oversigt\n\n';
+    md += '| Varenr. | Beskrivelse | Antal |\n';
+    md += '| :------ | :---------- | ----: |\n';
+    VAREKATALOG.forEach(kat => {
+      const alleVarer = kat.underkategorier
+        ? kat.underkategorier.flatMap(u => u.varer)
+        : (kat.varer || []);
+      alleVarer.filter(v => total[v.varenr]).forEach(v => {
+        const erKabel = KABEL_VARENUMRE.includes(v.varenr);
+        const antalVis = erKabel ? total[v.varenr] + ' m' : total[v.varenr] + ' stk.';
+        md += `| \`${visVarenr(v.varenr) || '—'}\` | ${v.beskrivelse} | **${antalVis}** |\n`;
+      });
+    });
 
     return md;
   }
@@ -1432,7 +1546,23 @@
     a.download = 'signalanlaeg-backup-' + new Date().toISOString().slice(0, 10) + '.json';
     a.click();
     URL.revokeObjectURL(url);
-    visBesked('✓ Backup downloadet');
+    visBesked('✓ Alle anlæg eksporteret');
+  }
+
+  function eksporterJsonEnkelt() {
+    const idDel = state.nr.trim() || state.navn.trim();
+    if (!idDel) { visBesked('Udfyld anlægsnummer eller navn først', 'danger'); return; }
+    const navn = idDel.replace(/[^a-zA-Z0-9æøåÆØÅ_-]/g, '_');
+    const enkelt = {};
+    enkelt[navn] = state;
+    const blob = new Blob([JSON.stringify(enkelt, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `signalanlaeg-${navn}-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    visBesked(`✓ Anlæg "${idDel}" eksporteret`);
   }
 
   function importerJson(file) {
@@ -1502,6 +1632,7 @@
     $('slet-btn').addEventListener('click', () => sletAnlaeg($('gemte-anlaeg').value));
 
     $('export-json-btn').addEventListener('click', eksporterJson);
+    $('export-json-enkelt-btn') && $('export-json-enkelt-btn').addEventListener('click', eksporterJsonEnkelt);
     $('import-json-input').addEventListener('change', e => {
       if (e.target.files[0]) importerJson(e.target.files[0]);
       e.target.value = '';
@@ -1517,15 +1648,6 @@
       mastFilter = new Set();
       renderMastFilter();
       opdaterOutput();
-    });
-    $('toggle-stykliste-btn').addEventListener('click', () => {
-      const indhold = $('stykliste-indhold');
-      const controls = $('stykliste-controls');
-      const btn = $('toggle-stykliste-btn');
-      const skjult = indhold.style.display === 'none';
-      indhold.style.display = skjult ? '' : 'none';
-      if (controls) controls.style.display = skjult ? '' : 'none';
-      btn.textContent = skjult ? '▾' : '▸';
     });
 
     // Toggle output
@@ -1550,13 +1672,32 @@
   }
 
   function handleMasterKlik(e) {
-    const t = e.target;
+    const t = e.target.closest('[data-action]');
+    if (!t) return;
     const action = t.dataset.action;
     if (!action) return;
 
     const mIdx = parseInt(t.dataset.mast);
 
-    if (action === 'toggle-mast') {
+    if (action === 'toggle-sig-section') {
+      const card = t.closest('.mast-card');
+      const body = card.querySelector('.sig-section-body');
+      const arrow = card.querySelector('.mast-section-toggle[data-action="toggle-sig-section"] .btn-collapse');
+      const open = body.style.display !== 'none';
+      body.style.display = open ? 'none' : '';
+      if (arrow) arrow.textContent = open ? '▸' : '▾';
+      const mIdx2 = parseInt(t.dataset.mast);
+      if (open) openSigSections.delete(mIdx2); else openSigSections.add(mIdx2);
+    } else if (action === 'toggle-udstyr-section') {
+      const card = t.closest('.mast-card');
+      const body = card.querySelector('.udstyr-section-body');
+      const arrow = card.querySelector('.mast-section-toggle[data-action="toggle-udstyr-section"] .btn-collapse');
+      const open = body.style.display !== 'none';
+      body.style.display = open ? 'none' : '';
+      if (arrow) arrow.textContent = open ? '▸' : '▾';
+      const mIdx2 = parseInt(t.dataset.mast);
+      if (open) openUdstyrSections.delete(mIdx2); else openUdstyrSections.add(mIdx2);
+    } else if (action === 'toggle-mast') {
       const card = t.closest('.mast-card');
       const body = card.querySelector('.mast-body');
       const summary = card.querySelector('.mast-summary');
@@ -1581,8 +1722,13 @@
         // Opdater kollaps-indeks efter sletning
         const nyCollapsed = new Set();
         collapsedMaster.forEach(i => { if (i < mIdx) nyCollapsed.add(i); else if (i > mIdx) nyCollapsed.add(i - 1); });
-        collapsedMaster.clear();
-        nyCollapsed.forEach(i => collapsedMaster.add(i));
+        collapsedMaster.clear(); nyCollapsed.forEach(i => collapsedMaster.add(i));
+        const nySig = new Set();
+        openSigSections.forEach(i => { if (i < mIdx) nySig.add(i); else if (i > mIdx) nySig.add(i - 1); });
+        openSigSections.clear(); nySig.forEach(i => openSigSections.add(i));
+        const nyUdstyr = new Set();
+        openUdstyrSections.forEach(i => { if (i < mIdx) nyUdstyr.add(i); else if (i > mIdx) nyUdstyr.add(i - 1); });
+        openUdstyrSections.clear(); nyUdstyr.forEach(i => openUdstyrSections.add(i));
         render();
       }
     } else if (action === 'del-udstyr') {
@@ -1645,6 +1791,14 @@
         varenr: varenrEl && varenrEl.value.trim() ? varenrEl.value.trim() : undefined,
       };
       render();
+    } else if (action === 'del-signal') {
+      const sIdx = parseInt(t.dataset.sig);
+      state.master[mIdx].signaler.splice(sIdx, 1);
+      render();
+    } else if (action === 'rediger-sig') {
+      const sIdx = parseInt(t.dataset.sig);
+      state.master[mIdx].signaler[sIdx]._redigerer = true;
+      render();
     } else if (action === 'annuller-sig') {
       const sIdx = parseInt(t.dataset.sig);
       delete state.master[mIdx].signaler[sIdx]._redigerer;
@@ -1653,9 +1807,20 @@
       const sIdx = parseInt(t.dataset.sig);
       const card = t.closest('.mast-card');
       const sig = state.master[mIdx].signaler[sIdx];
+      const kategori = card.querySelector(`[data-rediger-sig="kategori"][data-sig="${sIdx}"]`);
+      const type = card.querySelector(`[data-rediger-sig="type"][data-sig="${sIdx}"]`);
       const betegnelse = card.querySelector(`[data-rediger-sig="betegnelse"][data-sig="${sIdx}"]`);
       const hojde = card.querySelector(`[data-rediger-sig="hojde"][data-sig="${sIdx}"]`);
       const note = card.querySelector(`[data-rediger-sig="note"][data-sig="${sIdx}"]`);
+      if (kategori) sig.kategori = kategori.value;
+      if (type) {
+        sig.type = type.value;
+        // Opdater varenr hvis muligt
+        for (const kat of SIGNAL_KATEGORIER) {
+          const match = kat.typer.find(ty => ty.label === type.value);
+          if (match) { sig.varenr = match.varenr; break; }
+        }
+      }
       if (betegnelse) sig.betegnelse = betegnelse.value.trim();
       if (hojde) sig.hojde = hojde.value;
       if (note) sig.note = note.value.trim();
@@ -1673,14 +1838,17 @@
       const uIdx = parseInt(t.dataset.udstyr);
       const card = t.closest('.mast-card');
       const u = state.master[mIdx].udstyr[uIdx];
+      const varenrEl = card.querySelector(`[data-rediger-u="varenr"][data-udstyr="${uIdx}"]`);
       const antal = card.querySelector(`[data-rediger-u="antal"][data-udstyr="${uIdx}"]`);
       const betegnelse = card.querySelector(`[data-rediger-u="betegnelse"][data-udstyr="${uIdx}"]`);
+      if (varenrEl && varenrEl.value) {
+        u.varenr = varenrEl.value;
+        const vare = findVare(varenrEl.value);
+        if (vare) u.type = vare.beskrivelse;
+      }
       if (antal) u.antal = parseFloat(antal.value) || 1;
       if (betegnelse) u.betegnelse = betegnelse.value.trim();
       delete u._redigerer;
-      render();
-      const sIdx = parseInt(t.dataset.sig);
-      state.master[mIdx].signaler.splice(sIdx, 1);
       render();
     } else if (action === 'add-udstyr') {
       const card = t.closest('.mast-card');
@@ -1708,7 +1876,7 @@
       const kategori = card.querySelector('[data-field="signalkategori"]').value;
       const type = card.querySelector('[data-field="signaltype"]').value;
       const betegnelse = card.querySelector('[data-field="betegnelse"]').value.trim();
-      const hojde = card.querySelector('[data-field="hojde"]').value;
+      const hojde = card.querySelector('[data-field="ny-hojde"]').value;
       const note = card.querySelector('[data-field="note"]').value.trim();
       // Find varenr fra SIGNAL_KATEGORIER
       let varenr = '';
@@ -1742,6 +1910,33 @@
       } else {
         typeSelect.innerHTML = '<option value="">— Vælg kategori først —</option>';
         typeSelect.disabled = true;
+      }
+    } else if (t.dataset.redigersig === 'kategori' || t.getAttribute('data-rediger-sig') === 'kategori') {
+      // Live opdatering af type-dropdown i redigér-form
+      const card = t.closest('.mast-card');
+      const sIdx = parseInt(t.dataset.sig);
+      const typeSelect = card.querySelector(`[data-rediger-sig="type"][data-sig="${sIdx}"]`);
+      const valgtKategori = t.value;
+      const kategori = SIGNAL_KATEGORIER.find(k => k.kategori === valgtKategori);
+      if (typeSelect && kategori) {
+        typeSelect.innerHTML = kategori.typer
+          .map(ty => `<option value="${escapeHtml(ty.label)}">${escapeHtml(ty.label)}</option>`)
+          .join('');
+      }
+    } else if (t.getAttribute('data-rediger-u') === 'kategori') {
+      const card = t.closest('.mast-card');
+      const uIdx = parseInt(t.dataset.udstyr);
+      const vareSelect = card.querySelector(`[data-rediger-u="varenr"][data-udstyr="${uIdx}"]`);
+      const valgtKat = t.value;
+      const kat = UDSTYR_MENU.find(k => k.kategori === valgtKat);
+      if (vareSelect && kat) {
+        const alleVarer = kat.underkategorier
+          ? kat.underkategorier.flatMap(u => u.varer)
+          : (kat.varer || []);
+        vareSelect.innerHTML = alleVarer
+          .filter(v => !v.varenr.startsWith('INTERN-'))
+          .map(v => `<option value="${escapeHtml(v.varenr)}">${escapeHtml(v.beskrivelse)}</option>`)
+          .join('');
       }
     } else if (t.dataset.field === 'udstyrkategori') {
       const card = t.closest('.mast-card');
@@ -1834,50 +2029,63 @@
     const titel = nummer
       ? `STYKLISTE – ANLÆG ${nummer}${state.navn ? ' – ' + state.navn : ''}`
       : `STYKLISTE – ${state.navn || 'ANLÆG'}`;
+
+    const pad = (s, n) => String(s).padEnd(n).substring(0, n);
+    const COL1 = 18, COL2 = 36, COL3 = 10;
+    const topLine = '┌' + '─'.repeat(COL1+2) + '┬' + '─'.repeat(COL2+2) + '┬' + '─'.repeat(COL3+2) + '┐';
+    const midLine = '├' + '─'.repeat(COL1+2) + '┼' + '─'.repeat(COL2+2) + '┼' + '─'.repeat(COL3+2) + '┤';
+    const botLine = '└' + '─'.repeat(COL1+2) + '┴' + '─'.repeat(COL2+2) + '┴' + '─'.repeat(COL3+2) + '┘';
+    const row = (a, b, c) => `│ ${pad(a,COL1)} │ ${pad(b,COL2)} │ ${pad(c,COL3)} │`;
+
     let t = titel + '\n' + '='.repeat(titel.length) + '\n';
-    t += `Dato: ${dato}\n\n`;
+    t += `Dato: ${dato}   Master: ${state.master.length}\n\n`;
 
-    const masterMedVarer = state.master.filter(m => {
-      const tæller = beregnStyklistePrMast(m);
-      return Object.keys(tæller).length > 0;
-    });
-    if (masterMedVarer.length === 0) {
-      t += 'Ingen varer.\n';
-      return t;
-    }
-
-    masterMedVarer.forEach(mast => {
-      const header = `${mast.mastId} – ${mast.mastetype}`;
-      t += header + '\n' + '-'.repeat(header.length) + '\n';
-      const tæller = beregnStyklistePrMast(mast);
-      VAREKATALOG.forEach(kat => {
-        const alleVarer = kat.underkategorier
-          ? kat.underkategorier.flatMap(u => u.varer)
-          : (kat.varer || []);
-        const varer = alleVarer.filter(v => tæller[v.varenr]);
-        if (varer.length === 0) return;
-        t += `${kat.kategori}:\n`;
-        varer.forEach(v => {
-          const antal = Number.isInteger(tæller[v.varenr]) ? tæller[v.varenr] + ' stk.' : tæller[v.varenr] + ' m';
-          t += `  ${v.varenr ? v.varenr + ' – ' : ''}${v.beskrivelse}: ${antal}\n`;
-        });
-        t += '\n';
-      });
-    });
-
-    // Samlet totaloversigt
-    t += '='.repeat(30) + '\nSAMLET TOTALOVERSIGT\n' + '='.repeat(30) + '\n';
+    // Samlet total
     const total = {};
     state.master.forEach(mast => {
       Object.entries(beregnStyklistePrMast(mast)).forEach(([varenr, antal]) => {
         total[varenr] = (total[varenr] || 0) + antal;
       });
     });
-    Object.entries(total).forEach(([varenr, antal]) => {
-      const vare = findVare(varenr);
-      const antalLabel = Number.isInteger(antal) ? antal + ' stk.' : antal + ' m';
-      t += `  ${varenr ? varenr + ' – ' : ''}${vare ? vare.beskrivelse : varenr}: ${antalLabel}\n`;
+
+    if (Object.keys(total).length === 0) { t += 'Ingen varer.\n'; return t; }
+
+    // DEL 1: Kategorier med varer (tekstliste)
+    VAREKATALOG.forEach(kat => {
+      const alleVarer = kat.underkategorier
+        ? kat.underkategorier.flatMap(u => u.varer)
+        : (kat.varer || []);
+      const varer = alleVarer.filter(v => total[v.varenr]);
+      if (varer.length === 0) return;
+      t += `${kat.kategori}:\n`;
+      varer.forEach(v => {
+        const erKabel = KABEL_VARENUMRE.includes(v.varenr);
+        const antalVis = erKabel ? total[v.varenr] + ' m' : total[v.varenr] + ' stk.';
+        const vn = visVarenr(v.varenr) || '—';
+        t += `  ${vn.padEnd(18)} ${v.beskrivelse} (${antalVis})\n`;
+      });
+      t += '\n';
     });
+
+    // DEL 2: Samlet tabel
+    t += '='.repeat(COL1+COL2+COL3+10) + '\n';
+    t += 'SAMLET OVERSIGT\n';
+    t += '='.repeat(COL1+COL2+COL3+10) + '\n';
+    t += topLine + '\n';
+    t += row('Varenr.', 'Beskrivelse', 'Antal') + '\n';
+    t += midLine + '\n';
+    VAREKATALOG.forEach(kat => {
+      const alleVarer = kat.underkategorier
+        ? kat.underkategorier.flatMap(u => u.varer)
+        : (kat.varer || []);
+      const varer = alleVarer.filter(v => total[v.varenr]);
+      varer.forEach(v => {
+        const erKabel = KABEL_VARENUMRE.includes(v.varenr);
+        const antalVis = erKabel ? total[v.varenr] + ' m' : total[v.varenr] + ' stk.';
+        t += row(visVarenr(v.varenr) || '—', v.beskrivelse, antalVis) + '\n';
+      });
+    });
+    t += botLine + '\n';
 
     return t;
   }

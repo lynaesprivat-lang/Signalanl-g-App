@@ -609,3 +609,55 @@ optgroup { font-weight: 600; }
   gap: 6px;
   flex-wrap: wrap;
 }
+
+/* Ny stykliste design */
+.stykliste-kat-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-subtle);
+  padding: 0.5rem 0 0.3rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+.stykliste-gruppe:first-child .stykliste-kat-label {
+  margin-top: 0;
+  border-top: none;
+}
+.stykliste-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 80px;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  margin-bottom: 3px;
+  transition: background 0.1s;
+}
+.stykliste-row:hover { background: var(--surface-2); }
+.stykliste-varenr {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #93c5fd;
+  background: var(--primary-glow);
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-align: center;
+  white-space: nowrap;
+}
+.stykliste-beskrivelse {
+  font-size: 13px;
+  color: var(--text);
+}
+.stykliste-antal {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--amber-text);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Sektion toggle */
+.mast-section-toggle:hover .mast-section-label { color: var(--text); }
