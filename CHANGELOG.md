@@ -2,6 +2,15 @@
 
 ---
 
+## v56.6
+- **iPhone optimering:**
+  - Safe area support (notch og home bar)
+  - Alle inputs 16px så Safari ikke zoomer ind
+  - Større touch-mål på alle knapper (min 48px)
+  - Add-forms stables lodret på mobil
+  - Knapper i card-header fylder fuld bredde
+  - viewport-fit=cover for edge-to-edge display
+
 ## v56.5
 - **Auto-regel: Lanterne 4-felt polsk pissignal** → 2m Lanternekabel 7G1mm Sort (250-100-0365)
 - **Redigér udstyr** — kategori og vare-dropdown (varer opdateres live ved kategori-skift)
