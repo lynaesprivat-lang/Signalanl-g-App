@@ -50,6 +50,13 @@
         { label: 'AluStar 2 punkt 1-felt', varenr: '' },
       ]
     },
+    {
+      kategori: 'Cykelsignaler',
+      typer: [
+        { label: 'Lanterne 4-felt SEA',             varenr: '167-250-0914' },
+        { label: 'Lanterne 4-felt polsk pissignal',  varenr: '167-250-0501' },
+      ]
+    },
   ];
 
   // Flad liste – kun labels til output (ingen varenr)
@@ -200,12 +207,12 @@
         {
           navn: 'Swarco',
           varer: [
-            { varenr: '', beskrivelse: 'Swarco Touch uden tryk', bem: '' },
-            { varenr: '', beskrivelse: 'Swarco Touch fodgænger tryk', bem: '' },
-            { varenr: '', beskrivelse: 'Swarco Touch fodgænger tryk med lyd', bem: '' },
-            { varenr: '', beskrivelse: 'Scandinavia fodgænger tryk', bem: '' },
-            { varenr: '', beskrivelse: 'Scandinavia fodgænger tryk med lydgiver', bem: '' },
-            { varenr: '', beskrivelse: 'Scandinavia uden tryk', bem: '' },
+            { varenr: 'INTERN-SW-TOUCH-U',  beskrivelse: 'Swarco Touch uden tryk', bem: '' },
+            { varenr: 'INTERN-SW-TOUCH-F',  beskrivelse: 'Swarco Touch fodgænger tryk', bem: '' },
+            { varenr: 'INTERN-SW-TOUCH-FL', beskrivelse: 'Swarco Touch fodgænger tryk med lyd', bem: '' },
+            { varenr: 'INTERN-SC-FODG',     beskrivelse: 'Scandinavia fodgænger tryk', bem: '' },
+            { varenr: 'INTERN-SC-FODG-L',   beskrivelse: 'Scandinavia fodgænger tryk med lydgiver', bem: '' },
+            { varenr: 'INTERN-SC-UDEN',     beskrivelse: 'Scandinavia uden tryk', bem: '' },
           ]
         },
       ],
@@ -294,12 +301,12 @@
         { varenr: '250-300-1009', beskrivelse: 'Klemrække 37+16 polet', bem: '' },
         { varenr: '250-300-1100', beskrivelse: 'Sejldugspose til klemrække', bem: '' },
         { varenr: '250-300-1010', beskrivelse: 'Jordledning for klemrække til mast', bem: '' },
-        { varenr: '', beskrivelse: 'GL. Kbh 27 leder', bem: '' },
-        { varenr: '', beskrivelse: 'GL. Kbh 37 leder', bem: '' },
-        { varenr: '', beskrivelse: 'GL. Swarco 27 leder', bem: '' },
-        { varenr: '', beskrivelse: 'GL. Swarco 37 leder', bem: '' },
-        { varenr: '', beskrivelse: 'Nyere Swarco 27 leder', bem: '' },
-        { varenr: '', beskrivelse: 'Nyere Swarco 37 leder', bem: '' },
+        { varenr: 'INTERN-KL-27KBH',    beskrivelse: 'GL. Kbh 27 leder', bem: '' },
+        { varenr: 'INTERN-KL-37KBH',    beskrivelse: 'GL. Kbh 37 leder', bem: '' },
+        { varenr: 'INTERN-KL-27SW',     beskrivelse: 'GL. Swarco 27 leder', bem: '' },
+        { varenr: 'INTERN-KL-37SW',     beskrivelse: 'GL. Swarco 37 leder', bem: '' },
+        { varenr: 'INTERN-KL-27SWNY',   beskrivelse: 'Nyere Swarco 27 leder', bem: '' },
+        { varenr: 'INTERN-KL-37SWNY',   beskrivelse: 'Nyere Swarco 37 leder', bem: '' },
       ]
     },
     {
@@ -387,8 +394,11 @@
     },
   ];
 
-  // Flad liste til bagudkompatibilitet
-  const MASTETYPER = MASTETYPER_GRUPPER.flatMap(g => g.typer.map(t => t.label));
+  // Vis varenr — skjul interne ID'er
+  function visVarenr(varenr) {
+    if (!varenr || varenr.startsWith('INTERN-')) return '';
+    return varenr;
+  }
 
   const STORAGE_PREFIX = 'signalanlaeg:';
 
@@ -461,7 +471,7 @@
           }).join('');
           return `
             <div class="item-row">
-              <span class="badge badge-warning">${escapeHtml(u.varenr || u.type || '')}</span>
+              <span class="badge badge-warning">${escapeHtml(visVarenr(u.varenr) || u.type || '')}</span>
               <span class="item-label">${escapeHtml(vare ? vare.beskrivelse : (u.type || ''))}</span>
               ${u.betegnelse ? `<span class="item-note">${escapeHtml(u.betegnelse)}</span>` : ''}
               <button class="btn-icon" data-action="del-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}">×</button>
@@ -619,8 +629,9 @@
         if (mast.udstyr && mast.udstyr.length > 0) {
           md += '**Ekstra udstyr:**\n';
           mast.udstyr.forEach(u => {
-            const label = u.type || u.varenr || '';
-            md += `- ${label}${u.varenr ? ` (${u.varenr})` : ''}${u.betegnelse ? ' – ' + u.betegnelse : ''}\n`;
+            const label = u.type || (visVarenr(u.varenr) ? u.varenr : '') || '';
+            const vn = visVarenr(u.varenr);
+            md += `- ${label}${vn ? ` (${vn})` : ''}${u.betegnelse ? ' – ' + u.betegnelse : ''}\n`;
             autoVarerForUdstyr(u).forEach(v => {
               const vare = findVare(v.varenr);
               const antalLabel = Number.isInteger(v.antal) ? `${v.antal}×` : `${v.antal}m`;
@@ -680,8 +691,9 @@
         if (mast.udstyr && mast.udstyr.length > 0) {
           t += 'Ekstra udstyr:\n';
           mast.udstyr.forEach(u => {
-            const label = u.type || u.varenr || '';
-            t += `  * ${label}${u.varenr ? ` (${u.varenr})` : ''}${u.betegnelse ? ' - ' + u.betegnelse : ''}\n`;
+            const vn = visVarenr(u.varenr);
+            const label = u.type || (vn ? vn : '') || '';
+            t += `  * ${label}${vn ? ` (${vn})` : ''}${u.betegnelse ? ' - ' + u.betegnelse : ''}\n`;
             autoVarerForUdstyr(u).forEach(v => {
               const vare = findVare(v.varenr);
               const antalLabel = Number.isInteger(v.antal) ? `${v.antal}×` : `${v.antal}m`;
