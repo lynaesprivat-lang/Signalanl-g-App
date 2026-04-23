@@ -487,3 +487,125 @@ optgroup { font-weight: 600; }
   opacity: 0.5;
   font-family: 'DM Mono', monospace;
 }
+
+/* v54.1 tilføjelser */
+.btn-rediger {
+  color: var(--text-muted);
+}
+.btn-rediger:hover {
+  background: rgba(59,130,246,0.1);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.badge-hojde-advarsel {
+  background: rgba(248,113,113,0.15);
+  color: var(--danger);
+  border: 1px solid rgba(248,113,113,0.3);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 700;
+  cursor: help;
+}
+
+.rediger-row {
+  flex-direction: column;
+  align-items: stretch !important;
+  background: rgba(251,191,36,0.08) !important;
+  border-left: 3px solid var(--amber) !important;
+  padding: 10px 12px !important;
+}
+
+.rediger-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--amber-text);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mast-filter-wrap {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.mast-filter-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mast-filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mast-filter-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mast-filter-checkboxes label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.1s;
+  color: var(--text-muted);
+}
+
+.mast-filter-checkboxes label:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.mast-filter-checkboxes label.checked {
+  background: var(--primary-glow);
+  border-color: var(--primary);
+  color: #93c5fd;
+}
+
+.mast-filter-checkboxes input[type="checkbox"] {
+  cursor: pointer;
+  margin: 0;
+  width: auto;
+}
+
+.btn-small {
+  font-size: 11px;
+  padding: 3px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-family: inherit;
+}
+
+.btn-small:hover {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.rediger-auto-row {
+  background: rgba(59,130,246,0.08) !important;
+  border-left: 2px solid var(--primary) !important;
+  gap: 6px;
+  flex-wrap: wrap;
+}

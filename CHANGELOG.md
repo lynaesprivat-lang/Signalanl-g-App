@@ -2,6 +2,52 @@
 
 ---
 
+## v55.1
+- **Auto-regel: Forlænger arm** → automatisk 1× Forlænger arm til Radar (250-650-0148) når udstyr monteres på arm
+- Max 1 arm pr. mast — vises kun én gang i styklisten selvom flere enheder sidder på samme arm
+
+## v55
+- **Redigér auto-varer** — dropdown for vare (kun fra samme kategori) og antal (0.5–20)
+- **Auto-regel: Klemrækker** → automatisk 1× Sejldugspose (250-300-1100)
+- **Auto-regel: DSI master** → automatiske hætter:
+  - Lav DSI mast → 1× Tophætte (270-500-3005)
+  - Høj DSI mast → 1× Tophætte + 1× Mellemhætte
+  - DSI Galgemast cykel/høj → 1× Mellemhætte (270-500-3006)
+- DSI mast-hætter vises direkte på mastkortet og tæller med i styklisten
+
+## v54.2
+- **Redigér auto-varer** — ✎ knap på hver auto-vare åbner inline redigering af antal og varenr.
+- Ændrede auto-varer viser "ændret" badge i stedet for "auto"
+- Overrides gemmes pr. signal/udstyr og respekteres i stykliste og output
+
+## v54.1
+- **Redigér-knap (✎)** på signaler og ekstra udstyr — ret betegnelse, højde, antal og note uden at slette
+- **Advarsel ved manglende højde** — ⚠ Højde badge på signaler uden højde valgt
+- **Mast-filter i output** — vælg hvilke master der inkluderes i output via checkboxes (Alle/Ingen)
+- **Naturlig sortering** af master — S1, S2, S10 i stedet for S1, S10, S2
+
+## v54
+- Rettet: Antal-felt og meter-felt havde samme felt-navn — antal viste altid 1 i styklisten uanset hvad man indtastede
+
+## v53
+- Rettet: Antal blev gemt som tekst i stedet for tal — stykliste og output viser nu korrekt antal
+
+## v52
+- Antal-felt for alt ekstra udstyr (ikke kun kabler)
+- Forlænger arm toggle vises automatisk ved radar/kamera valg
+- Spændbånd beregnes automatisk baseret på mastetype og montering:
+  - ø127/DSI → 130-150mm (280-850-0009)
+  - Alu-round Ø135/Milewide → 140-160mm (280-850-0010)
+  - Alu-round Ø165 → 170-190mm (280-350-0013)
+  - På forlænger arm: Smartmicro/Heimdall → 90-110mm, Flir → 50-70mm
+  - Tilslutningsboks Heimdall: ingen spændbånd
+- Spændbånd 50-70mm (280-850-0016) tilføjet i katalog
+- Rettet: Lanterne 3-felt 5W havde forkert varenr — er nu 167-250-0831
+
+## v51
+- "NIL/KLO" credit tilføjet diskret i header
+- CHANGELOG.md inkluderes fra nu af i alle versioner
+
 ## v50
 - Ved indlæsning af gemt anlæg starter alle master nu minimerede
 
