@@ -319,6 +319,7 @@
         { varenr: '270-500-3001', beskrivelse: 'Konsol nedafvendt DSI', bem: '' },
         { varenr: '270-500-3002', beskrivelse: 'Konsol opadvendt DSI', bem: '' },
         { varenr: '270-500-3003', beskrivelse: 'Konsol Universal DSI', bem: '' },
+        { varenr: '270-500-3004', beskrivelse: 'Konsol svingbar', bem: '' },
         { varenr: '270-500-3005', beskrivelse: 'DSI Tophætte', bem: '' },
         { varenr: '270-500-3006', beskrivelse: 'DSI Mellemhætte', bem: '' },
         { varenr: '270-500-3008', beskrivelse: 'Ophæng Universal DSI', bem: '' },
@@ -479,11 +480,11 @@
     {
       gruppe: 'Milewide master',
       typer: [
-        { label: 'Milewide Lav',         varenr: '' },
-        { label: 'Milewide Høj',         varenr: '' },
-        { label: 'Milewide Cykel Galge', varenr: '' },
-        { label: 'Milewide Høj Galge',   varenr: '' },
-        { label: 'Milewide Tryk Stander', varenr: '' },
+        { label: 'Milewide Lav',          varenr: '270-200-0409' },
+        { label: 'Milewide Høj',          varenr: '270-200-0404' },
+        { label: 'Milewide Cykel Galge',  varenr: '270-200-0405' },
+        { label: 'Milewide Høj Galge',    varenr: '270-200-0420' },
+        { label: 'Milewide Tryk Stander', varenr: '270-200-0402' },
       ]
     },
   ];

@@ -2,6 +2,10 @@
 
 ---
 
+## v56.7
+- **Milewide master** har nu korrekte varenumre fra CSV (0402/0404/0405/0409/0420)
+- **Konsol svingbar** (270-500-3004) tilføjet under Beslag og støtteholdere
+
 ## v56.6
 - **iPhone optimering:**
   - Safe area support (notch og home bar)
