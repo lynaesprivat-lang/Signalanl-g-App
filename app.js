@@ -543,72 +543,73 @@
         </div>
 
         <div class="mast-body">
-          <div class="mast-section-label">Signaltype</div>
-          ${signalerHtml}
-          <div class="add-form">
-            <div class="field">
-              <label>Kategori</label>
-              <select data-field="signalkategori" data-mast="${mastIdx}">
-                <option value="">— Vælg kategori —</option>
-                ${SIGNAL_KATEGORIER.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
-              </select>
+          <div class="mast-section">
+            <div class="mast-section-label">Signaltype</div>
+            ${signalerHtml}
+            <div class="add-form">
+              <div class="field">
+                <label>Kategori</label>
+                <select data-field="signalkategori" data-mast="${mastIdx}">
+                  <option value="">— Vælg kategori —</option>
+                  ${SIGNAL_KATEGORIER.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
+                </select>
+              </div>
+              <div class="field">
+                <label>Præcis type</label>
+                <select data-field="signaltype" data-mast="${mastIdx}" disabled>
+                  <option value="">— Vælg kategori først —</option>
+                </select>
+              </div>
+              <div class="field field-small">
+                <label>Betegnelse</label>
+                <input type="text" data-field="betegnelse" data-mast="${mastIdx}" placeholder="A1H" />
+              </div>
+              <div class="field field-small">
+                <label>Højde</label>
+                <select data-field="hojde" data-mast="${mastIdx}">${hojdeOptions}</select>
+              </div>
+              <div class="field">
+                <label>Note</label>
+                <input type="text" data-field="note" data-mast="${mastIdx}" placeholder="(valgfri)" />
+              </div>
+              <button class="btn-secondary" data-action="add-signal" data-mast="${mastIdx}">+ Tilføj signal</button>
             </div>
-            <div class="field">
-              <label>Præcis type</label>
-              <select data-field="signaltype" data-mast="${mastIdx}" disabled>
-                <option value="">— Vælg kategori først —</option>
-              </select>
-            </div>
-            <div class="field field-small">
-              <label>Betegnelse</label>
-              <input type="text" data-field="betegnelse" data-mast="${mastIdx}" placeholder="A1H" />
-            </div>
-            <div class="field field-small">
-              <label>Højde</label>
-              <select data-field="hojde" data-mast="${mastIdx}">${hojdeOptions}</select>
-            </div>
-            <div class="field">
-              <label>Note</label>
-              <input type="text" data-field="note" data-mast="${mastIdx}" placeholder="(valgfri)" />
-            </div>
-            <button class="btn-secondary" data-action="add-signal" data-mast="${mastIdx}">+ Tilføj signal</button>
           </div>
-        </div>
 
-        <div class="mast-section">
-          <div class="mast-section-label">Ekstra udstyr</div>
-          ${udstyrHtml}
-          <div class="add-form">
-            <div class="field">
-              <label>Kategori</label>
-              <select data-field="udstyrkategori" data-mast="${mastIdx}">
-                <option value="">— Vælg kategori —</option>
-                ${UDSTYR_MENU.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
-              </select>
+          <div class="mast-section">
+            <div class="mast-section-label">Ekstra udstyr</div>
+            ${udstyrHtml}
+            <div class="add-form">
+              <div class="field">
+                <label>Kategori</label>
+                <select data-field="udstyrkategori" data-mast="${mastIdx}">
+                  <option value="">— Vælg kategori —</option>
+                  ${UDSTYR_MENU.map(k => `<option value="${escapeHtml(k.kategori)}">${escapeHtml(k.kategori)}</option>`).join('')}
+                </select>
+              </div>
+              <div class="field" id="udstyr-under-wrap-${mastIdx}" style="display:none">
+                <label>Underkategori</label>
+                <select data-field="udstyrunderkategori" data-mast="${mastIdx}" disabled>
+                  <option value="">— Vælg underkategori —</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Vare</label>
+                <select data-field="udstyrtype" data-mast="${mastIdx}" disabled>
+                  <option value="">— Vælg kategori først —</option>
+                </select>
+              </div>
+              <div class="field field-small" id="udstyr-meter-wrap-${mastIdx}" style="display:none">
+                <label>Meter</label>
+                <input type="number" data-field="udstyrantal" data-mast="${mastIdx}" placeholder="m" min="0.5" step="0.5" style="min-width:60px" />
+              </div>
+              <div class="field">
+                <label>Betegnelse (valgfri)</label>
+                <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
+              </div>
+              <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
             </div>
-            <div class="field" id="udstyr-under-wrap-${mastIdx}" style="display:none">
-              <label>Underkategori</label>
-              <select data-field="udstyrunderkategori" data-mast="${mastIdx}" disabled>
-                <option value="">— Vælg underkategori —</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Vare</label>
-              <select data-field="udstyrtype" data-mast="${mastIdx}" disabled>
-                <option value="">— Vælg kategori først —</option>
-              </select>
-            </div>
-            <div class="field field-small" id="udstyr-meter-wrap-${mastIdx}" style="display:none">
-              <label>Meter</label>
-              <input type="number" data-field="udstyrantal" data-mast="${mastIdx}" placeholder="m" min="0.5" step="0.5" style="min-width:60px" />
-            </div>
-            <div class="field">
-              <label>Betegnelse (valgfri)</label>
-              <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
-            </div>
-            <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
           </div>
-        </div>
         </div>
       </section>
     `;
