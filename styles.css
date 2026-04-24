@@ -759,3 +759,31 @@ optgroup { font-weight: 600; }
     justify-content: center;
   }
 }
+
+/* Output knapper — 2 rækker */
+.output-row-1,
+.output-row-2 {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.output-row-1 select,
+.output-row-2 select { flex: 1; min-width: 0; }
+
+.output-row-1 button,
+.output-row-2 button { white-space: nowrap; }
+
+#output-controls {
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  margin-top: 0;
+}
+
+@media (max-width: 600px) {
+  .output-row-1 button,
+  .output-row-2 button { flex: 1; justify-content: center; }
+}
