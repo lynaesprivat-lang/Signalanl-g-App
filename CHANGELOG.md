@@ -2,6 +2,10 @@
 
 ---
 
+## v57.1
+- Slettet: 167-650-0573 og 167-650-0574 (ikke i CSV)
+- Rettet: 167-650-0673 beskrivelse → "Pil maske rød/gul Silux2"
+
 ## v57
 - **Output format** — markdown og tekst følger nu samme struktur som v2.15:
   - YAML frontmatter i markdown

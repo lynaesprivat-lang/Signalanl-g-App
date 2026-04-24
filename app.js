@@ -349,6 +349,7 @@
         { varenr: '250-650-0164', beskrivelse: 'Smartmicro Type 44', bem: '' },
         { varenr: '250-650-0167', beskrivelse: 'Smartmicro Type 48', bem: '' },
         { varenr: '250-650-0159', beskrivelse: 'Kabel UMMR til radar 40/42/44/45/48', bem: '' },
+        { varenr: '250-650-0141', beskrivelse: 'Kabel til radar 10 meter', bem: '' },
         { varenr: '250-650-0162', beskrivelse: 'Konsol UMMR for Radar 42/48', bem: '' },
         { varenr: '250-650-0137', beskrivelse: 'Konsol UMMR for Radar 29/44/45', bem: '' },
         { varenr: '250-650-0190/1', beskrivelse: 'Radartilslutningsbox til Bluetooth 4', bem: '' },
@@ -1203,6 +1204,11 @@
       beskrivelse: 'Smartmicro Type 44/45 → Konsol UMMR 29/44/45',
       matcher: u => ['250-650-0164', '250-650-0165'].includes(u.varenr),
       varer: [{ varenr: '250-650-0137', antal: 1 }]
+    },
+    {
+      beskrivelse: 'Smartmicro Type 29/30 → Kabel til radar 10 meter',
+      matcher: u => ['250-650-0160', '250-650-0161'].includes(u.varenr),
+      varer: [{ varenr: '250-650-0141', antal: 1 }]
     },
     {
       beskrivelse: 'Smartmicro Type 29/30 → Konsol UMMR 29/44/45',
