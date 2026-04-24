@@ -252,8 +252,7 @@
     {
       kategori: 'Masker og indlæg 200mm',
       varer: [
-        { varenr: '167-650-0574', beskrivelse: '200mm pilemaske / indlæg rød / gul Silux2', bem: '' },
-        { varenr: '167-650-0573', beskrivelse: '200mm pilemaske / indlæg rød / gul Silux2', bem: '' },
+        { varenr: '167-650-0673', beskrivelse: 'Pil maske rød/gul Silux2', bem: '' },
         { varenr: '167-650-0674', beskrivelse: '200mm pilemaske / indlæg Grøn Silux2', bem: '' },
         { varenr: '167-650-0671', beskrivelse: '200mm Fodg. maske / indlæg rød Silux2', bem: '' },
         { varenr: '167-650-0672', beskrivelse: '200mm Fodg. maske / indlæg Grøn Silux2', bem: '' },
