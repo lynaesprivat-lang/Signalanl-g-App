@@ -41,18 +41,20 @@
     <!-- Gem/indlæs -->
     <section class="card">
       <h2>Gemte anlæg</h2>
-      <div class="button-row">
-        <select id="gemte-anlaeg" class="flex-1">
+      <div class="field" style="margin-bottom:0.6rem">
+        <select id="gemte-anlaeg" style="width:100%">
           <option value="">— Vælg gemt anlæg —</option>
         </select>
-        <button id="indlaes-btn" class="btn-secondary">Indlæs</button>
-        <button id="slet-btn" class="btn-danger">Slet</button>
-        <button id="gem-btn" class="btn-primary">Gem</button>
       </div>
       <div class="button-row">
-        <button id="export-json-btn" class="btn-secondary">Eksportér alle anlæg (JSON)</button>
-        <button id="export-json-enkelt-btn" class="btn-secondary">Eksportér dette anlæg (JSON)</button>
-        <label for="import-json-input" class="btn-secondary btn-label">Importér JSON</label>
+        <button id="indlaes-btn" class="btn-secondary btn-gem-row">Indlæs</button>
+        <button id="slet-btn" class="btn-danger btn-gem-row">Slet</button>
+        <button id="gem-btn" class="btn-primary btn-gem-row">Gem</button>
+      </div>
+      <div class="button-row" style="margin-top:0.5rem">
+        <button id="export-json-enkelt-btn" class="btn-secondary btn-gem-row">Eksportér dette</button>
+        <button id="export-json-btn" class="btn-secondary btn-gem-row">Eksportér alle</button>
+        <label for="import-json-input" class="btn-secondary btn-label btn-gem-row">Importér</label>
         <input type="file" id="import-json-input" accept="application/json" hidden />
       </div>
     </section>
