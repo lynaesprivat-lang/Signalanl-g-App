@@ -2,6 +2,21 @@
 
 ---
 
+## v57
+- **Output format** — markdown og tekst følger nu samme struktur som v2.15:
+  - YAML frontmatter i markdown
+  - Oversigt med anlægsinfo øverst
+  - Pr. mast: mastetype med varenr, mast-auto-varer, signaler med varenr og auto-varer, ekstra udstyr med varenr og auto-varer
+
+## v56.11
+- **Rettet: Auto-varer ganges nu med udstyr-antal** — 2× Bluetooth-box giver nu korrekt 2× spændbånd, 2× kabel osv.
+
+## v56.10
+- **Rettet: Baggrundsplade Siemens (167-650-0685)** vistes som "Lanterne 1-felt" — varenr. var sat forkert ind i lanterner-kataloget og er nu fjernet derfra
+
+## v56.9
+- **iPhone fix:** Output-knapper opdelt i 2 rækker — output og stykliste på hver sin linje
+
 ## v56.8
 - **iPhone fix:** Gemte anlæg — dropdown fylder fuld bredde, knapper fordeler sig pænt på 3 pr. række
 - Kortere knaptekster: "Eksportér dette", "Eksportér alle", "Importér"

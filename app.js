@@ -206,7 +206,7 @@
         { varenr: '167-250-0831', beskrivelse: 'Lanterne 4-felt 100mm', bem: 'Inkl. Pc støtteholder. Klar linser' },
         { varenr: '167-250-0813', beskrivelse: 'Lanterne 3-felt', bem: 'Klar linse. Inkl. skygge' },
         { varenr: '167-250-0821', beskrivelse: 'Lanterne 2-felt fodgænger', bem: 'Klar linse. Inkl. skygge' },
-        { varenr: '167-650-0685', beskrivelse: 'Lanterne 1-felt', bem: 'Klar linse. Inkl. skygge' },
+        { varenr: '167-250-0811', beskrivelse: 'Lanterne 1-felt', bem: 'Klar linse. Inkl. skygge' },
       ]
     },
     {
@@ -947,6 +947,85 @@
     if (!mastFilter) return state.master;
     return state.master.filter(m => mastFilter.has(m.mastId));
   }
+  function generateTekst() {
+    const dato = new Date().toISOString().slice(0, 10);
+    const nummer = fullTegningsnr();
+    const titel = nummer
+      ? `ANLAEG ${nummer}${state.navn ? ' - ' + state.navn : ''}`
+      : `ANLAEG: ${state.navn || '(uden navn)'}`;
+    let t = titel + '\n' + '='.repeat(titel.length) + '\n\n';
+    if (state.nr) t += `Anlaegsnummer:   ${state.nr}\n`;
+    t += `Dato:            ${dato}\n`;
+    t += `Antal master:    ${filtereredeMaster().length}\n`;
+    const totalSignaler = state.master.reduce((sum, m) => sum + m.signaler.length, 0);
+    t += `Antal signaler:  ${totalSignaler}\n\n`;
+
+    if (filtereredeMaster().length === 0) {
+      t += 'Ingen master tilfoejt endnu.\n';
+    } else {
+      filtereredeMaster().forEach(mast => {
+        const masteVarenr = findMasteVarenr(mast.mastetype);
+        const header = `${mast.mastId} - ${mast.mastetype}${masteVarenr ? ' [' + masteVarenr + ']' : ''}`;
+        t += header + '\n' + '-'.repeat(header.length) + '\n';
+
+        // Mast auto-varer
+        const mastAutoVarer = autoVarerForMast(mast);
+        if (mastAutoVarer.length > 0) {
+          t += '\nAuto-tilfoejt til mast:\n';
+          mastAutoVarer.forEach(v => {
+            const vare = findVare(v.varenr);
+            t += `  >> ${vare ? vare.beskrivelse : v.varenr} x ${v.antal} stk. [${v.varenr}]\n`;
+          });
+        }
+
+        if (mast.signaler.length === 0) {
+          t += '\nIngen signaler.\n';
+        } else {
+          t += '\nSignaler:\n';
+          mast.signaler.forEach(sig => {
+            const vn = visVarenr(sig.varenr);
+            let line = `  * ${sig.betegnelse || '?'}: ${sig.type}`;
+            if (sig.hojde) line += ` (${sig.hojde})`;
+            if (vn) line += ` [${vn}]`;
+            if (sig.note) line += ` - ${sig.note}`;
+            t += line + '\n';
+            autoVarerForSignal(sig).forEach((v, aIdx) => {
+              const override = (sig._autoOverrides || {})[aIdx] || {};
+              const varenr = override.varenr || v.varenr;
+              const antal = override.antal !== undefined ? override.antal : v.antal;
+              const vare = findVare(varenr);
+              const aLabel = Number.isInteger(antal) ? `${antal} stk.` : `${antal} m`;
+              t += `    >> ${vare ? vare.beskrivelse : varenr} x ${aLabel} [${varenr}]\n`;
+            });
+          });
+        }
+
+        if (mast.udstyr && mast.udstyr.length > 0) {
+          t += '\nEkstra udstyr:\n';
+          mast.udstyr.forEach(u => {
+            const vn = visVarenr(u.varenr);
+            const erKabel = KABEL_VARENUMRE.includes(u.varenr);
+            const antalLabel = erKabel ? `${u.antal || 1} m` : `${u.antal || 1} stk.`;
+            let line = `  * ${u.type || ''}${u.betegnelse ? ' - ' + u.betegnelse : ''} x ${antalLabel}`;
+            if (vn) line += ` [${vn}]`;
+            if (u.forloengerArm) line += ' (forlaenger arm)';
+            t += line + '\n';
+            autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
+              const override = (u._autoOverrides || {})[aIdx] || {};
+              const varenr = override.varenr || v.varenr;
+              const antal = override.antal !== undefined ? override.antal : v.antal;
+              const vare = findVare(varenr);
+              const aLabel = Number.isInteger(antal) ? `${antal} stk.` : `${antal} m`;
+              t += `    >> ${vare ? vare.beskrivelse : varenr} x ${aLabel} [${varenr}]\n`;
+            });
+          });
+        }
+        t += '\n';
+      });
+    }
+    return t;
+  }
+
   function generateMarkdown() {
     const dato = new Date().toISOString().slice(0, 10);
     const nummer = fullTegningsnr();
@@ -956,7 +1035,7 @@
     if (state.nr) md += `anlægsnummer: ${state.nr}\n`;
     if (state.navn) md += `navn: ${state.navn}\n`;
     md += `dato: ${dato}\n`;
-    md += `antal_master: ${state.master.length}\n`;
+    md += `antal_master: ${filtereredeMaster().length}\n`;
     const totalSignaler = state.master.reduce((sum, m) => sum + m.signaler.length, 0);
     md += `antal_signaler: ${totalSignaler}\n`;
     md += '---\n\n';
@@ -964,45 +1043,39 @@
     const titel = nummer
       ? `# Anlæg ${nummer}${state.navn ? ' – ' + state.navn : ''}`
       : `# Anlæg: ${state.navn || '(uden navn)'}`;
-    md += titel + '\n\n';
-
-    md += '## Oversigt\n\n';
+    md += titel + '\n\n## Oversigt\n\n';
     if (state.nr) md += `**Anlægsnummer:** ${state.nr}\n`;
     md += `**Dato:** ${dato}\n`;
-    md += `**Antal master:** ${state.master.length}\n`;
+    md += `**Antal master:** ${filtereredeMaster().length}\n`;
     md += `**Antal signaler:** ${totalSignaler}\n\n---\n\n`;
 
-    if (state.master.length === 0) {
+    if (filtereredeMaster().length === 0) {
       md += '_Ingen master tilføjet endnu._\n';
     } else {
       filtereredeMaster().forEach(mast => {
-        if (mast.udstyr && mast.udstyr.length > 0) {
-          md += '**Ekstra udstyr:**\n';
-          mast.udstyr.forEach(u => {
-            const label = u.type || (visVarenr(u.varenr) ? u.varenr : '') || '';
-            const vn = visVarenr(u.varenr);
-            const erKabel = KABEL_VARENUMRE.includes(u.varenr);
-            const antalPræfix = erKabel && u.antal ? `${u.antal}m ` : (u.antal && u.antal > 1 ? `${u.antal}× ` : '');
-            const armTekst = u.forlængerArm ? ' _(forlænger arm)_' : '';
-            md += `- ${antalPræfix}${label}${vn ? ` (${vn})` : ''}${armTekst}${u.betegnelse ? ' – ' + u.betegnelse : ''}\n`;
-            autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
-              const override = (u._autoOverrides || {})[aIdx] || {};
-              const varenr = override.varenr || v.varenr;
-              const antal = override.antal !== undefined ? override.antal : v.antal;
-              const vare = findVare(varenr);
-              const antalLabel = Number.isInteger(antal) ? `${antal}×` : `${antal}m`;
-              md += `  - ↳ ${antalLabel} ${vare ? vare.beskrivelse : varenr} (${varenr})${override.varenr ? ' _(ændret)_' : ''}\n`;
-            });
+        const masteVarenr = findMasteVarenr(mast.mastetype);
+        md += `## ${mast.mastId} – ${mast.mastetype}${masteVarenr ? ` \`${masteVarenr}\`` : ''}\n\n`;
+        if (mast.mastetype) md += `**Mastetype:** ${mast.mastetype}${masteVarenr ? ` · \`${masteVarenr}\`` : ''}\n`;
+
+        const mastAutoVarer = autoVarerForMast(mast);
+        if (mastAutoVarer.length > 0) {
+          md += '\n**Auto-tilføjet til mast:**\n';
+          mastAutoVarer.forEach(v => {
+            const vare = findVare(v.varenr);
+            md += `- ↳ ${vare ? vare.beskrivelse : v.varenr} × ${v.antal} stk. · \`${v.varenr}\`\n`;
           });
-          md += '\n';
         }
+        md += '\n';
+
         if (mast.signaler.length === 0) {
-          md += '_Ingen signaler._\n\n';
+          md += '**Signaler:** _Ingen signaler._\n\n';
         } else {
+          md += '**Signaler:**\n';
           mast.signaler.forEach(sig => {
+            const vn = visVarenr(sig.varenr);
             let line = `- **${sig.betegnelse || '?'}:** ${sig.type}`;
-            if (sig.varenr) line += ` (${sig.varenr})`;
             if (sig.hojde) line += ` _(${sig.hojde})_`;
+            if (vn) line += ` · \`${vn}\``;
             if (sig.note) line += ` — _${sig.note}_`;
             md += line + '\n';
             autoVarerForSignal(sig).forEach((v, aIdx) => {
@@ -1010,87 +1083,37 @@
               const varenr = override.varenr || v.varenr;
               const antal = override.antal !== undefined ? override.antal : v.antal;
               const vare = findVare(varenr);
-              const antalLabel = Number.isInteger(antal) ? `${antal}×` : `${antal}m`;
-              md += `  - ↳ ${antalLabel} ${vare ? vare.beskrivelse : varenr} (${varenr})${override.varenr ? ' _(ændret)_' : ''}\n`;
+              const aLabel = Number.isInteger(antal) ? `${antal} stk.` : `${antal} m`;
+              md += `  - ↳ ${vare ? vare.beskrivelse : varenr} × ${aLabel} · \`${varenr}\`\n`;
+            });
+          });
+          md += '\n';
+        }
+
+        if (mast.udstyr && mast.udstyr.length > 0) {
+          md += '**Ekstra udstyr:**\n';
+          mast.udstyr.forEach(u => {
+            const vn = visVarenr(u.varenr);
+            const erKabel = KABEL_VARENUMRE.includes(u.varenr);
+            const antalLabel = erKabel ? `${u.antal || 1} m` : `${u.antal || 1} stk.`;
+            let line = `- ${u.type || ''}${u.betegnelse ? ' – ' + u.betegnelse : ''} × ${antalLabel}`;
+            if (vn) line += ` · \`${vn}\``;
+            if (u.forlængerArm) line += ' _(forlænger arm)_';
+            md += line + '\n';
+            autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
+              const override = (u._autoOverrides || {})[aIdx] || {};
+              const varenr = override.varenr || v.varenr;
+              const antal = override.antal !== undefined ? override.antal : v.antal;
+              const vare = findVare(varenr);
+              const aLabel = Number.isInteger(antal) ? `${antal} stk.` : `${antal} m`;
+              md += `  - ↳ ${vare ? vare.beskrivelse : varenr} × ${aLabel} · \`${varenr}\`\n`;
             });
           });
           md += '\n';
         }
       });
     }
-
     return md;
-  }
-
-  function generateTekst() {
-    const dato = new Date().toISOString().slice(0, 10);
-    const nummer = fullTegningsnr();
-
-    let t = '';
-    const titel = nummer
-      ? `ANLÆG ${nummer}${state.navn ? ' - ' + state.navn : ''}`
-      : `ANLÆG: ${state.navn || '(uden navn)'}`;
-    t += titel + '\n';
-    t += '='.repeat(titel.length) + '\n\n';
-
-    if (state.nr) t += `Anlægsnummer:   ${state.nr}\n`;
-    t += `Dato:           ${dato}\n`;
-    t += `Antal master:   ${state.master.length}\n`;
-    const totalSignaler = state.master.reduce((sum, m) => sum + m.signaler.length, 0);
-    t += `Antal signaler: ${totalSignaler}\n\n`;
-
-    if (state.master.length === 0) {
-      t += 'Ingen master tilføjet endnu.\n';
-    } else {
-      filtereredeMaster().forEach(mast => {
-        const masteVarenr = findMasteVarenr(mast.mastetype);
-        const header = `${mast.mastId} - ${mast.mastetype}${masteVarenr ? ` (${masteVarenr})` : ''}`;
-        t += header + '\n';
-        t += '-'.repeat(header.length) + '\n';
-        if (mast.udstyr && mast.udstyr.length > 0) {
-          t += 'Ekstra udstyr:\n';
-          mast.udstyr.forEach(u => {
-            const vn = visVarenr(u.varenr);
-            const label = u.type || (vn ? vn : '') || '';
-            const erKabel = KABEL_VARENUMRE.includes(u.varenr);
-            const antalPræfix = erKabel && u.antal ? `${u.antal}m ` : (u.antal && u.antal > 1 ? `${u.antal}× ` : '');
-            const armTekst = u.forlængerArm ? ' (forlænger arm)' : '';
-            t += `  * ${antalPræfix}${label}${vn ? ` (${vn})` : ''}${armTekst}${u.betegnelse ? ' - ' + u.betegnelse : ''}\n`;
-            autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
-              const override = (u._autoOverrides || {})[aIdx] || {};
-              const varenr = override.varenr || v.varenr;
-              const antal = override.antal !== undefined ? override.antal : v.antal;
-              const vare = findVare(varenr);
-              const antalLabel = Number.isInteger(antal) ? `${antal}×` : `${antal}m`;
-              t += `    → ${antalLabel} ${vare ? vare.beskrivelse : varenr} (${varenr})\n`;
-            });
-          });
-        }
-        if (mast.signaler.length === 0) {
-          t += 'Ingen signaler.\n';
-        } else {
-          t += 'Signaler:\n';
-          mast.signaler.forEach(sig => {
-            let line = `  * ${sig.betegnelse || '?'}: ${sig.type}`;
-            if (sig.varenr) line += ` (${sig.varenr})`;
-            if (sig.hojde) line += ` (${sig.hojde})`;
-            if (sig.note) line += ` - ${sig.note}`;
-            t += line + '\n';
-            autoVarerForSignal(sig).forEach((v, aIdx) => {
-              const override = (sig._autoOverrides || {})[aIdx] || {};
-              const varenr = override.varenr || v.varenr;
-              const antal = override.antal !== undefined ? override.antal : v.antal;
-              const vare = findVare(varenr);
-              const antalLabel = Number.isInteger(antal) ? `${antal}×` : `${antal}m`;
-              t += `    → ${antalLabel} ${vare ? vare.beskrivelse : varenr} (${varenr})\n`;
-            });
-          });
-        }
-        t += '\n';
-      });
-    }
-
-    return t;
   }
 
   function opdaterOutput() {
@@ -1336,11 +1359,12 @@
         tæller['250-650-0148'] = (tæller['250-650-0148'] || 0) + 1;
         armTilfoejt = true;
       }
+      const udstyrAntal = parseFloat(u.antal) || 1;
       autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
         const override = (u._autoOverrides || {})[aIdx] || {};
         const varenr = override.varenr || v.varenr;
-        const antal = override.antal !== undefined ? override.antal : v.antal;
-        tæller[varenr] = (tæller[varenr] || 0) + antal;
+        const autoAntal = override.antal !== undefined ? override.antal : v.antal;
+        tæller[varenr] = (tæller[varenr] || 0) + (autoAntal * udstyrAntal);
       });
     });
     // Automatiske varer fra signaler + selve lanterner
