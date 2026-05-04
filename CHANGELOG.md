@@ -2,6 +2,24 @@
 
 ---
 
+## v57.5
+- **Danintra master** tilføjet (5 typer: 1.4m Fodg., 2.0m Cyklist, Lav 3.1m, Høj 5.2m, Kombimast 10m)
+- **Spændbånd 150-170mm** (280-850-0011) tilføjet — bruges automatisk på Danintra master
+- **Lanterne 4-felt Cyklist 100mm LED Sort** (167-650-0303) tilføjet under Cykelsignaler
+- **Skumringsrelæ 2-200 Lux** (250-600-0336) tilføjet under Diverse
+
+## v57.4
+- **Alle signaler vises nu i styklisten** — alle signaltyper har unikke INTERN-ID'er og er registreret i VAREKATALOG under "Signaler"
+- INTERN-ID'er vises som — i styklisten, kun beskrivelse vises
+- Forenklet logik — ingen special TYPE: nøgler mere
+
+## v57.3
+- **Rettet: Signaler vises nu i styklisten** — signaler uden varenr (Glødepære DSI, Opeka, Atki osv.) tælles og vises som "Signaler" sektion øverst i stykliste og samlet tabel
+
+## v57.2
+- Tilføjet: Kabel til radar 10 meter (250-650-0141) i Smartmicro katalog
+- Auto-regel: Smartmicro Type 29/30 → 1× Kabel til radar 10 meter (250-650-0141)
+
 ## v57.1
 - Slettet: 167-650-0573 og 167-650-0574 (ikke i CSV)
 - Rettet: 167-650-0673 beskrivelse → "Pil maske rød/gul Silux2"

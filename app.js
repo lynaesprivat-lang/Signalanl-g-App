@@ -36,18 +36,18 @@
     {
       kategori: 'Swarco AluStar DSI',
       typer: [
-        { label: 'AluStar DSI 4-lys',              varenr: '' },
-        { label: 'AluStar DSI 3-felt',             varenr: '' },
-        { label: 'AluStar DSI 2-felt fodgænger',   varenr: '' },
-        { label: 'AluStar DSI 1-felt',             varenr: '' },
+        { label: 'AluStar DSI 4-lys',              varenr: 'INTERN-SIG-ALUDSI-4' },
+        { label: 'AluStar DSI 3-felt',             varenr: 'INTERN-SIG-ALUDSI-3' },
+        { label: 'AluStar DSI 2-felt fodgænger',   varenr: 'INTERN-SIG-ALUDSI-2' },
+        { label: 'AluStar DSI 1-felt',             varenr: 'INTERN-SIG-ALUDSI-1' },
       ]
     },
     {
       kategori: 'Swarco AluStar 2 punkt',
       typer: [
-        { label: 'AluStar 2 punkt 3-felt',             varenr: '' },
-        { label: 'AluStar 2 punkt 2-felt fodgænger',   varenr: '' },
-        { label: 'AluStar 2 punkt 1-felt',             varenr: '' },
+        { label: 'AluStar 2 punkt 3-felt',             varenr: 'INTERN-SIG-ALU2-3' },
+        { label: 'AluStar 2 punkt 2-felt fodgænger',   varenr: 'INTERN-SIG-ALU2-2' },
+        { label: 'AluStar 2 punkt 1-felt',             varenr: 'INTERN-SIG-ALU2-1' },
       ]
     },
     {
@@ -107,8 +107,9 @@
     {
       kategori: 'Cykelsignaler',
       typer: [
-        { label: 'Lanterne 4-felt SEA',             varenr: '167-250-0914' },
+        { label: 'Lanterne 4-felt SEA',              varenr: '167-250-0914' },
         { label: 'Lanterne 4-felt polsk pissignal',  varenr: '167-250-0501' },
+        { label: 'Lanterne 4-felt Cyklist 100mm LED Sort', varenr: '167-650-0303' },
       ]
     },
   ];
@@ -147,6 +148,11 @@
     'Milewide Cykel Galge':      '280-850-0010',
     'Milewide Høj Galge':        '280-850-0010',
     'Milewide Tryk Stander':     '280-850-0010',
+    'Danintra Mast 1.4m til Fodg. Tryk': '280-850-0011', // 150-170mm
+    'Danintra Mast 2.0m til Cykelsignal': '280-850-0011',
+    'Danintra Mast Lav 3.1m':    '280-850-0011',
+    'Danintra Mast Høj 5.2m':    '280-850-0011',
+    'Danintra Kombimast 10m':    '280-850-0011',
   };
 
   // Spændbånd ved forlænger arm
@@ -185,6 +191,16 @@
       ]
     },
     {
+      kategori: 'Danintra master',
+      varer: [
+        { varenr: '270-200-0201', beskrivelse: 'Danintra Mast 1.4m til Fodg. Tryk', bem: '' },
+        { varenr: '270-200-0202', beskrivelse: 'Danintra Mast 2.0m til Cykelsignal', bem: '' },
+        { varenr: '270-200-0203', beskrivelse: 'Danintra Mast Lav 3.1m', bem: '' },
+        { varenr: '270-200-0204', beskrivelse: 'Danintra Mast Høj 5.2m', bem: '' },
+        { varenr: '270-200-0221', beskrivelse: 'Danintra Kombimast 10m', bem: '' },
+      ]
+    },
+    {
       kategori: 'Fundamentplader',
       varer: [
         { varenr: '270-200-0520', beskrivelse: 'Fu. Plade beton ø 102-130mm', bem: '2 stk. for høj. 1 stk. for lav og tryk mast' },
@@ -207,6 +223,7 @@
         { varenr: '167-250-0813', beskrivelse: 'Lanterne 3-felt', bem: 'Klar linse. Inkl. skygge' },
         { varenr: '167-250-0821', beskrivelse: 'Lanterne 2-felt fodgænger', bem: 'Klar linse. Inkl. skygge' },
         { varenr: '167-250-0811', beskrivelse: 'Lanterne 1-felt', bem: 'Klar linse. Inkl. skygge' },
+        { varenr: '167-650-0303', beskrivelse: 'Lanterne 4-felt Cyklist 100mm LED Sort', bem: '' },
       ]
     },
     {
@@ -336,6 +353,7 @@
         { varenr: '280-850-0008', beskrivelse: 'Spændbånd 120-140mm Rustfrit stål', bem: '' },
         { varenr: '280-850-0009', beskrivelse: 'Spændbånd 130-150mm Rustfrit stål', bem: '' },
         { varenr: '280-850-0010', beskrivelse: 'Spændbånd 140-160mm Rustfrit stål', bem: '' },
+        { varenr: '280-850-0011', beskrivelse: 'Spændbånd 150-170mm Rustfrit stål', bem: '' },
         { varenr: '280-350-0013', beskrivelse: 'Spændbånd 170-190mm Rustfrit stål', bem: '' },
         { varenr: '998-900-0009', beskrivelse: 'Kabelbinder Sort UV bestandig 4,8 x 249mm', bem: '' },
       ]
@@ -405,9 +423,46 @@
       ]
     },
     {
+      kategori: 'Signaler',
+      varer: [
+        { varenr: 'INTERN-SIG-ALUDSI-4', beskrivelse: 'AluStar DSI 4-lys', bem: '' },
+        { varenr: 'INTERN-SIG-ALUDSI-3', beskrivelse: 'AluStar DSI 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ALUDSI-2', beskrivelse: 'AluStar DSI 2-felt fodgænger', bem: '' },
+        { varenr: 'INTERN-SIG-ALUDSI-1', beskrivelse: 'AluStar DSI 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ALU2-3',   beskrivelse: 'AluStar 2 punkt 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ALU2-2',   beskrivelse: 'AluStar 2 punkt 2-felt fodgænger', bem: '' },
+        { varenr: 'INTERN-SIG-ALU2-1',   beskrivelse: 'AluStar 2 punkt 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-OP2-4',    beskrivelse: 'Opeka 2 punkt 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-OP2-3',    beskrivelse: 'Opeka 2 punkt 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-OP2-2',    beskrivelse: 'Opeka 2 punkt 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-OP2-1',    beskrivelse: 'Opeka 2 punkt 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-DSI-4',    beskrivelse: 'Opeka DSI 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-DSI-3',    beskrivelse: 'Opeka DSI 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-DSI-2',    beskrivelse: 'Opeka DSI 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-DSI-1',    beskrivelse: 'Opeka DSI 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKIDSI-4', beskrivelse: 'Atki DSI 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKIDSI-3', beskrivelse: 'Atki DSI 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKIDSI-2', beskrivelse: 'Atki DSI 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKIDSI-1', beskrivelse: 'Atki DSI 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKI2-4',  beskrivelse: 'Atki 2 punkt 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKI2-3',  beskrivelse: 'Atki 2 punkt 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKI2-2',  beskrivelse: 'Atki 2 punkt 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-ATKI2-1',  beskrivelse: 'Atki 2 punkt 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GL2-4',    beskrivelse: 'Glødepære 2 punkt 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GL2-3',    beskrivelse: 'Glødepære 2 punkt 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GL2-2',    beskrivelse: 'Glødepære 2 punkt 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GL2-1',    beskrivelse: 'Glødepære 2 punkt 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GLDSI-4',  beskrivelse: 'Glødepære DSI 4-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GLDSI-3',  beskrivelse: 'Glødepære DSI 3-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GLDSI-2',  beskrivelse: 'Glødepære DSI 2-felt', bem: '' },
+        { varenr: 'INTERN-SIG-GLDSI-1',  beskrivelse: 'Glødepære DSI 1-felt', bem: '' },
+      ]
+    },
+    {
       kategori: 'Diverse',
       varer: [
         { varenr: '167-650-0685', beskrivelse: 'Baggrundsplade Siemens', bem: '' },
+        { varenr: '250-600-0336', beskrivelse: 'Skumringsrelæ 2-200 Lux på master', bem: '' },
       ]
     },
 
@@ -442,11 +497,11 @@
 
   // Kategorier der vises i Ekstra Udstyr menuen (ikke master/signalhoveder)
   const SKJULTE_KATEGORIER = [
-    'Master til nedgravning', 'Alu-round master', 'DSI Galgemaster',
+    'Master til nedgravning', 'Alu-round master', 'DSI Galgemaster', 'Danintra master',
     'Fundamentplader', 'Mastetilbehør',
     'Signalhoveder – Lanterner 5W', 'Signalhoveder – Lanterner 17W',
     'Signalhoveder – Lanterner 24V (Siemens Sx)', 'Signalhoveder – Lanterner 17W DSI',
-    'Silux2 LED moduler 200mm',
+    'Silux2 LED moduler 200mm', 'Signaler',
   ];
   const UDSTYR_MENU = VAREKATALOG.filter(k => !SKJULTE_KATEGORIER.includes(k.kategori));
 
@@ -485,6 +540,16 @@
         { label: 'Milewide Cykel Galge',  varenr: '270-200-0405' },
         { label: 'Milewide Høj Galge',    varenr: '270-200-0420' },
         { label: 'Milewide Tryk Stander', varenr: '270-200-0402' },
+      ]
+    },
+    {
+      gruppe: 'Danintra master',
+      typer: [
+        { label: 'Danintra Mast 1.4m til Fodg. Tryk', varenr: '270-200-0201' },
+        { label: 'Danintra Mast 2.0m til Cykelsignal', varenr: '270-200-0202' },
+        { label: 'Danintra Mast Lav 3.1m',             varenr: '270-200-0203' },
+        { label: 'Danintra Mast Høj 5.2m',             varenr: '270-200-0204' },
+        { label: 'Danintra Kombimast 10m',             varenr: '270-200-0221' },
       ]
     },
   ];
@@ -1385,6 +1450,53 @@
     return tæller;
   }
 
+  // Byg signal-sektion fra total (TYPE: nøgler)
+  function signalSektionHtml(total) {
+    const signaler = Object.entries(total)
+      .filter(([k]) => k.startsWith('TYPE:'))
+      .map(([k, antal]) => ({ type: k.replace('TYPE:', ''), antal }))
+      .sort((a, b) => a.type.localeCompare(b.type));
+    if (signaler.length === 0) return '';
+    return `
+      <div class="stykliste-gruppe">
+        <div class="stykliste-kat-label">Signaler</div>
+        ${signaler.map(s => `<div class="stykliste-row">
+          <span class="stykliste-varenr">—</span>
+          <span class="stykliste-beskrivelse">${escapeHtml(s.type)}</span>
+          <span class="stykliste-antal">${s.antal} stk.</span>
+        </div>`).join('')}
+      </div>`;
+  }
+
+  function signalSektionTekst(total) {
+    const signaler = Object.entries(total)
+      .filter(([k]) => k.startsWith('TYPE:'))
+      .map(([k, antal]) => ({ type: k.replace('TYPE:', ''), antal }))
+      .sort((a, b) => a.type.localeCompare(b.type));
+    if (signaler.length === 0) return '';
+    let t = 'Signaler:\n';
+    signaler.forEach(s => {
+      t += `  ${'—'.padEnd(18)} ${s.type} (${s.antal} stk.)\n`;
+    });
+    return t + '\n';
+  }
+
+  function signalSektionMd(total) {
+    const signaler = Object.entries(total)
+      .filter(([k]) => k.startsWith('TYPE:'))
+      .map(([k, antal]) => ({ type: k.replace('TYPE:', ''), antal }))
+      .sort((a, b) => a.type.localeCompare(b.type));
+    if (signaler.length === 0) return '';
+    let md = '### Signaler\n\n';
+    signaler.forEach(s => md += `- — ${s.type} — **${s.antal} stk.**\n`);
+    return md + '\n';
+  }
+
+  // Filtrer total for visning (fjern TYPE: nøgler fra varekatalog-loop)
+  function totalUdenSignaler(total) {
+    return Object.fromEntries(Object.entries(total).filter(([k]) => !k.startsWith('TYPE:')));
+  }
+
   function renderStykliste() {
     const container = $('stykliste-indhold');
     if (!container) return;
@@ -1407,7 +1519,7 @@
       return;
     }
 
-    // Vis pr. kategori
+    // Vis pr. kategori — INTERN varer vises med — som varenr
     const grupperHtml = VAREKATALOG.map(kat => {
       const alleVarer = kat.underkategorier
         ? kat.underkategorier.flatMap(u => u.varer)
@@ -2080,7 +2192,7 @@
 
     if (Object.keys(total).length === 0) { t += 'Ingen varer.\n'; return t; }
 
-    // DEL 1: Kategorier med varer (tekstliste)
+    // DEL 1: Kategorier med varer
     VAREKATALOG.forEach(kat => {
       const alleVarer = kat.underkategorier
         ? kat.underkategorier.flatMap(u => u.varer)
