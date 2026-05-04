@@ -1923,7 +1923,7 @@
     if (!cfg.token || !cfg.owner || !cfg.repo) {
       githubVisBesked('Udfyld token, bruger og repo først', true); return;
     }
-    const noegler = gemteNoegler();
+    const noegler = gemteNoegler().filter(k => !k.includes('github'));
     if (noegler.length === 0) { githubVisBesked('Ingen gemte anlæg at pushe', true); return; }
     githubVisBesked(`Pusher ${noegler.length} anlæg til GitHub...`);
     try {
