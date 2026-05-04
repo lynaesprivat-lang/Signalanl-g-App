@@ -2,6 +2,9 @@
 
 ---
 
+## v58.7
+- Rettet: github:config vistes i listen over gemte anlæg
+
 ## v58.6
 - Rettet: GitHub Push fejlede med 409 fordi GitHub config-nøglen blev pushet som anlæg
 

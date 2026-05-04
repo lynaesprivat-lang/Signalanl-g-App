@@ -1863,6 +1863,11 @@
     if ($('github-owner')) $('github-owner').value = cfg.owner || '';
     if ($('github-repo'))  $('github-repo').value  = cfg.repo  || '';
     opdaterGithubBadge(cfg);
+    // Vis badge i header selv om sektionen er lukket
+    if (cfg && cfg.token && cfg.owner && cfg.repo) {
+      const badge = $('github-status-badge');
+      if (badge) { badge.textContent = `${cfg.owner}/${cfg.repo}`; badge.className = 'badge badge-auto'; }
+    }
   }
 
   function opdaterGithubBadge(cfg) {
@@ -1888,8 +1893,17 @@
     return `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${sti}`;
   }
 
+  function githubCfgFraFelter() {
+    const token = $('github-token') ? $('github-token').value.trim() : '';
+    const owner = $('github-owner') ? $('github-owner').value.trim() : '';
+    const repo  = $('github-repo')  ? $('github-repo').value.trim()  : '';
+    // Auto-gem hvis udfyldt
+    if (token && owner && repo) gemGithubIndstillinger(token, owner, repo);
+    return { token, owner, repo };
+  }
+
   async function githubHent() {
-    const cfg = githubIndstillinger();
+    const cfg = githubCfgFraFelter();
     if (!cfg.token || !cfg.owner || !cfg.repo) {
       githubVisBesked('Udfyld token, bruger og repo først', true); return;
     }
@@ -1919,7 +1933,7 @@
   }
 
   async function githubPush() {
-    const cfg = githubIndstillinger();
+    const cfg = githubCfgFraFelter();
     if (!cfg.token || !cfg.owner || !cfg.repo) {
       githubVisBesked('Udfyld token, bruger og repo først', true); return;
     }
