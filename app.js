@@ -134,6 +134,7 @@
   const SPAENDBAAND_PR_MAST = {
     'Høj mast 5,1m ø127':        '280-850-0009', // 130-150mm
     'Lav mast 3,1m ø127':        '280-850-0009',
+    'Mast 2,0m til Cykelsignal ø127': '280-850-0009',
     'Tryk mast m. Luge':         '280-850-0009',
     'Mast 6,1m Ø127 til Radar':  '280-850-0009',
     'Lav DSI mast':              '280-850-0009',
@@ -172,6 +173,7 @@
       varer: [
         { varenr: '270-200-0105', beskrivelse: 'Høj mast for nedgravning 5,1m ø127', bem: '2 punkt montage' },
         { varenr: '270-200-0104', beskrivelse: 'Lav mast for nedgravning 3,1m ø127', bem: '2 punkt montage' },
+        { varenr: '270-200-0106', beskrivelse: 'Mast 2,0m til Cykelsignal ø127', bem: '' },
         { varenr: '270-200-0103', beskrivelse: 'Tryk mast for nedgravning m. Luge', bem: '' },
         { varenr: '270-200-0109', beskrivelse: 'Mast 6,1m Ø127 til Radar for nedg.', bem: '' },
         { varenr: '270-200-0141', beskrivelse: 'Lav DSI mast', bem: '' },
@@ -527,6 +529,7 @@
       typer: [
         { label: 'Høj mast 5,1m ø127',        varenr: '270-200-0105' },
         { label: 'Lav mast 3,1m ø127',         varenr: '270-200-0104' },
+        { label: 'Mast 2,0m til Cykelsignal ø127', varenr: '270-200-0106' },
         { label: 'Tryk mast m. Luge',          varenr: '270-200-0103' },
         { label: 'Mast 6,1m Ø127 til Radar',   varenr: '270-200-0109' },
       ]

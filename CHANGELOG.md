@@ -2,6 +2,12 @@
 
 ---
 
+## v58.3
+- **Klistermærke flueben** ved fodgængertryk — vises kun for Prisma og RTB underkategorier
+  - Prisma → automatisk Mærkat "Tryk for Grønt" (250-650-0050)
+  - RTB → automatisk Makat til fodgængertryk RTB (250-550-0051)
+- 🏷 mærkat badge vises på udstyr-rækken når flueben er sat
+
 ## v58.2
 - Rettet: Pilemaske flueben manglede i redigér-signal formen — kan nu til- og fravælges ved redigering
 
