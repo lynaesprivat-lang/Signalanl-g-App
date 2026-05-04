@@ -2,6 +2,31 @@
 
 ---
 
+## v58.2
+- Rettet: Pilemaske flueben manglede i redigér-signal formen — kan nu til- og fravælges ved redigering
+
+## v58.1
+- **Slet auto-varer** — × knap på auto-varer sletter dem fra visning og stykliste
+
+## v58
+- **Milewide Kombi 10m med Fodflange** (270-200-0411) tilføjet
+- Milewide master tilføjet i VAREKATALOG så de tæller korrekt i styklisten
+
+## v57.9
+- **Redigér masttype** — ✎ knap på mastheaderen åbner inline redigering af mast-ID og mastetype med dropdown
+
+## v57.8
+- Pilemaske flueben vises kun når Ercolight kategori er valgt — skjult for alle andre signaltyper
+
+## v57.7
+- Rettet: 167-650-0673 viste "200mm grøn led Silux2" — duplikat varenr i kataloget medfødte forkert beskrivelse
+
+## v57.6
+- **Pilemaske flueben** i tilføj-signal — sæt flueben for at tilføje automatisk 2× Rød/gul + 1× Grøn pilemaske
+- **Auto-regel: Ercolight 1-felt** (2 punkt + DSI) → automatisk 1× Pil maske grøn (167-650-0674)
+- **Alu-round 1,4m Ø135** (270-200-0301) og **2,1m Ø135 til Cykelsignal** (270-200-0305) tilføjet
+- Pilemaske badge vises på signalrækken når flueben er sat
+
 ## v57.5
 - **Danintra master** tilføjet (5 typer: 1.4m Fodg., 2.0m Cyklist, Lav 3.1m, Høj 5.2m, Kombimast 10m)
 - **Spændbånd 150-170mm** (280-850-0011) tilføjet — bruges automatisk på Danintra master

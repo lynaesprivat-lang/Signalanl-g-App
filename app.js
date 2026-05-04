@@ -140,6 +140,8 @@
     'Høj DSI mast':              '280-850-0009',
     'DSI Galgemast cykel':       '280-850-0009',
     'DSI Galgemast høj':         '280-850-0009',
+    'Alu-round 1,4m Ø135':           '280-850-0010', // 140-160mm
+    'Alu-round 2,1m Ø135 til Cykelsignal': '280-850-0010',
     'Alu-round 3,1m Ø135':           '280-850-0010', // 140-160mm
     'Alu-round 5,3m Ø165':           '280-350-0013', // 170-190mm
     'Alu-round 6,3m ø165 til Radar': '280-350-0013',
@@ -148,6 +150,7 @@
     'Milewide Cykel Galge':      '280-850-0010',
     'Milewide Høj Galge':        '280-850-0010',
     'Milewide Tryk Stander':     '280-850-0010',
+    'Milewide Kombi 10m med Fodflange': '280-850-0010',
     'Danintra Mast 1.4m til Fodg. Tryk': '280-850-0011', // 150-170mm
     'Danintra Mast 2.0m til Cykelsignal': '280-850-0011',
     'Danintra Mast Lav 3.1m':    '280-850-0011',
@@ -178,6 +181,8 @@
     {
       kategori: 'Alu-round master',
       varer: [
+        { varenr: '270-200-0301', beskrivelse: 'Mast Alu-round 1,4m Ø135', bem: '' },
+        { varenr: '270-200-0305', beskrivelse: 'Mast Alu-round 2,1m Ø135 til Cykelsignal', bem: '' },
         { varenr: '270-200-0302', beskrivelse: 'Mast Alu-round 3,1m Ø135', bem: '' },
         { varenr: '270-200-0303', beskrivelse: 'Mast Alu-round 5,3m Ø165', bem: '' },
         { varenr: '270-200-0308', beskrivelse: 'Mast Alu-round 6,3m ø165 til Radar', bem: '' },
@@ -188,6 +193,17 @@
       varer: [
         { varenr: '270-200-0144', beskrivelse: 'DSI Galgemast cykel', bem: '' },
         { varenr: '270-200-0146', beskrivelse: 'DSI Galgemast høj', bem: '' },
+      ]
+    },
+    {
+      kategori: 'Milewide master',
+      varer: [
+        { varenr: '270-200-0409', beskrivelse: 'Milewide Lav', bem: '' },
+        { varenr: '270-200-0404', beskrivelse: 'Milewide Høj', bem: '' },
+        { varenr: '270-200-0405', beskrivelse: 'Milewide Cykel Galge', bem: '' },
+        { varenr: '270-200-0420', beskrivelse: 'Milewide Høj Galge', bem: '' },
+        { varenr: '270-200-0402', beskrivelse: 'Milewide Tryk Stander', bem: '' },
+        { varenr: '270-200-0411', beskrivelse: 'Milewide Kombi 10m med Fodflange', bem: '' },
       ]
     },
     {
@@ -259,7 +275,7 @@
       varer: [
         { varenr: '167-650-0152', beskrivelse: '200mm rød led Silux2 inkl. Forramme', bem: 'Hvid linse (5W)' },
         { varenr: '167-650-0153', beskrivelse: '200mm gul led Silux2 inkl. Forramme', bem: 'Hvid linse (5W)' },
-        { varenr: '167-650-0673', beskrivelse: '200mm grøn led Silux2 inkl. Forramme', bem: 'Hvid linse (5W)' },
+        { varenr: '167-650-0675', beskrivelse: '200mm grøn led Silux2 inkl. Forramme', bem: 'Hvid linse (5W)' },
         { varenr: '167-650-0121', beskrivelse: '200mm rød led Silux2 inkl. Forramme', bem: 'Hvid linse (17W)' },
         { varenr: '167-650-0122', beskrivelse: '200mm gul led Silux2 inkl. Forramme', bem: 'Hvid linse (17W)' },
         { varenr: '167-650-0123', beskrivelse: '200mm grøn led Silux2 inkl. Forramme', bem: 'Hvid linse (17W)' },
@@ -497,7 +513,7 @@
 
   // Kategorier der vises i Ekstra Udstyr menuen (ikke master/signalhoveder)
   const SKJULTE_KATEGORIER = [
-    'Master til nedgravning', 'Alu-round master', 'DSI Galgemaster', 'Danintra master',
+    'Master til nedgravning', 'Alu-round master', 'DSI Galgemaster', 'Danintra master', 'Milewide master',
     'Fundamentplader', 'Mastetilbehør',
     'Signalhoveder – Lanterner 5W', 'Signalhoveder – Lanterner 17W',
     'Signalhoveder – Lanterner 24V (Siemens Sx)', 'Signalhoveder – Lanterner 17W DSI',
@@ -518,6 +534,8 @@
     {
       gruppe: 'Alu-round master',
       typer: [
+        { label: 'Alu-round 1,4m Ø135',           varenr: '270-200-0301' },
+        { label: 'Alu-round 2,1m Ø135 til Cykelsignal', varenr: '270-200-0305' },
         { label: 'Alu-round 3,1m Ø135',           varenr: '270-200-0302' },
         { label: 'Alu-round 5,3m Ø165',           varenr: '270-200-0303' },
         { label: 'Alu-round 6,3m ø165 til Radar', varenr: '270-200-0308' },
@@ -535,11 +553,12 @@
     {
       gruppe: 'Milewide master',
       typer: [
-        { label: 'Milewide Lav',          varenr: '270-200-0409' },
-        { label: 'Milewide Høj',          varenr: '270-200-0404' },
-        { label: 'Milewide Cykel Galge',  varenr: '270-200-0405' },
-        { label: 'Milewide Høj Galge',    varenr: '270-200-0420' },
-        { label: 'Milewide Tryk Stander', varenr: '270-200-0402' },
+        { label: 'Milewide Lav',                      varenr: '270-200-0409' },
+        { label: 'Milewide Høj',                      varenr: '270-200-0404' },
+        { label: 'Milewide Cykel Galge',              varenr: '270-200-0405' },
+        { label: 'Milewide Høj Galge',                varenr: '270-200-0420' },
+        { label: 'Milewide Tryk Stander',             varenr: '270-200-0402' },
+        { label: 'Milewide Kombi 10m med Fodflange',  varenr: '270-200-0411' },
       ]
     },
     {
@@ -742,6 +761,7 @@
           const autoHtml = autoVarer.map((v, aIdx) => {
             const autoVare = findVare(v.varenr);
             const override = (u._autoOverrides || {})[aIdx] || {};
+            if (override._slettet) return ''; // slettet
             const visAntal = override.antal !== undefined ? override.antal : v.antal;
             const visVarenrAuto = override.varenr || v.varenr;
             const visVare = findVare(visVarenrAuto);
@@ -773,12 +793,13 @@
               <span class="auto-vare-label">${aLabel} ${escapeHtml(visVare ? visVare.beskrivelse : visVarenrAuto)}</span>
               <span class="badge badge-auto">${override.varenr || override.antal !== undefined ? 'ændret' : 'auto'}</span>
               <button class="btn-icon btn-rediger" style="font-size:10px;padding:1px 6px;margin-left:auto" data-action="rediger-auto-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}" data-auto="${aIdx}" title="Redigér auto-vare">✎</button>
+              <button class="btn-icon" style="font-size:10px;padding:1px 6px" data-action="slet-auto-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}" data-auto="${aIdx}" title="Slet auto-vare">×</button>
             </div>`;
           }).join('');
           return `
             <div class="item-row">
               <span class="badge badge-warning">${escapeHtml(visVarenr(u.varenr) || u.type || '')}</span>
-              <span class="item-label">${antalLabel}${escapeHtml(vare ? vare.beskrivelse : (u.type || ''))}${u.forlængerArm ? ' <span class="badge badge-neutral" style="font-size:10px">arm</span>' : ''}</span>
+              <span class="item-label">${antalLabel}${escapeHtml(vare ? vare.beskrivelse : (u.type || ''))}${u.forlængerArm ? ' <span class="badge badge-neutral" style="font-size:10px">arm</span>' : ''}${u.klistermaerke ? ' <span class="badge badge-neutral" style="font-size:10px">🏷 mærkat</span>' : ''}</span>
               ${u.betegnelse ? `<span class="item-note">${escapeHtml(u.betegnelse)}</span>` : ''}
               <button class="btn-icon btn-rediger" data-action="rediger-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}" title="Redigér">✎</button>
               <button class="btn-icon" data-action="del-udstyr" data-mast="${mastIdx}" data-udstyr="${uIdx}">×</button>
@@ -817,6 +838,13 @@
                     <select data-rediger-sig="hojde" data-mast="${mastIdx}" data-sig="${sigIdx}">${hojdeOpts}</select></div>
                   <div class="field"><label>Note</label>
                     <input type="text" data-rediger-sig="note" data-mast="${mastIdx}" data-sig="${sigIdx}" value="${escapeHtml(sig.note || '')}" /></div>
+                  ${sig.kategori && sig.kategori.includes('Ercolight') ? `
+                  <div class="field" style="justify-content:flex-end">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;font-size:13px;color:var(--text)">
+                      <input type="checkbox" data-rediger-sig="pilemaske" data-mast="${mastIdx}" data-sig="${sigIdx}" style="width:auto;min-height:auto;cursor:pointer" ${sig.pilemaske ? 'checked' : ''} />
+                      Med pilemaske
+                    </label>
+                  </div>` : ''}
                   <button class="btn-primary" data-action="gem-sig" data-mast="${mastIdx}" data-sig="${sigIdx}">Gem</button>
                   <button class="btn-secondary" data-action="annuller-sig" data-mast="${mastIdx}" data-sig="${sigIdx}">Annullér</button>
                 </div>
@@ -825,6 +853,7 @@
           const autoVarer = autoVarerForSignal(sig);
           const autoHtml = autoVarer.map((v, aIdx) => {
             const override = (sig._autoOverrides || {})[aIdx] || {};
+            if (override._slettet) return ''; // slettet
             const visAntal = override.antal !== undefined ? override.antal : v.antal;
             const visVarenrAuto = override.varenr || v.varenr;
             const visVare = findVare(visVarenrAuto);
@@ -856,16 +885,19 @@
               <span class="auto-vare-label">${aLabel} ${escapeHtml(visVare ? visVare.beskrivelse : visVarenrAuto)}</span>
               <span class="badge badge-auto">${override.varenr || override.antal !== undefined ? 'ændret' : 'auto'}</span>
               <button class="btn-icon btn-rediger" style="font-size:10px;padding:1px 6px;margin-left:auto" data-action="rediger-auto-sig" data-mast="${mastIdx}" data-sig="${sigIdx}" data-auto="${aIdx}" title="Redigér auto-vare">✎</button>
+              <button class="btn-icon" style="font-size:10px;padding:1px 6px" data-action="slet-auto-sig" data-mast="${mastIdx}" data-sig="${sigIdx}" data-auto="${aIdx}" title="Slet auto-vare">×</button>
             </div>`;
           }).join('');
           const hojdeBadge = sig.hojde
             ? `<span class="badge badge-neutral">${escapeHtml(sig.hojde)}</span>`
             : `<span class="badge badge-hojde-advarsel" title="Højde er ikke valgt">⚠ Højde</span>`;
+          const pilemaskeBadge = sig.pilemaske ? `<span class="badge badge-neutral" style="font-size:10px">🔺 Pilemaske</span>` : '';
           return `
             <div class="item-row">
               <span class="badge">${escapeHtml(sig.betegnelse || '?')}</span>
               <span class="item-label">${escapeHtml(sig.type)}</span>
               ${hojdeBadge}
+              ${pilemaskeBadge}
               ${sig.note ? `<span class="item-note">${escapeHtml(sig.note)}</span>` : ''}
               <button class="btn-icon btn-rediger" data-action="rediger-sig" data-mast="${mastIdx}" data-sig="${sigIdx}" title="Redigér">✎</button>
               <button class="btn-icon" data-action="del-signal" data-mast="${mastIdx}" data-sig="${sigIdx}">×</button>
@@ -904,13 +936,23 @@
     return `
       <section class="mast-card" data-collapsed="false">
         <div class="mast-header">
-          <div style="display:flex;align-items:center;gap:0.5rem;flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:0.5rem;flex:1;min-width:0;flex-wrap:wrap;">
             <button class="btn-collapse" data-action="toggle-mast" data-mast="${mastIdx}" title="Fold/unfold">▾</button>
-            <span class="mast-title">${escapeHtml(mast.mastId)}</span>
-            <span class="mast-subtype-label">${escapeHtml(mast.mastetype)}</span>
-            <span class="mast-summary" style="display:none">${escapeHtml(summary)}</span>
+            ${mast._redigerer ? `
+              <input type="text" data-field="mast-id-edit" data-mast="${mastIdx}" value="${escapeHtml(mast.mastId)}" style="width:80px;font-size:15px;font-weight:700;padding:4px 8px" />
+              <select data-field="mastetype-edit" data-mast="${mastIdx}" style="font-size:12px;padding:4px 8px;flex:1;min-width:120px">${mastetypeOptions}</select>
+              <button class="btn-primary" style="padding:4px 12px;font-size:12px" data-action="gem-mast" data-mast="${mastIdx}">Gem</button>
+              <button class="btn-secondary" style="padding:4px 10px;font-size:12px" data-action="annuller-mast" data-mast="${mastIdx}">Annullér</button>
+            ` : `
+              <span class="mast-title">${escapeHtml(mast.mastId)}</span>
+              <span class="mast-subtype-label">${escapeHtml(mast.mastetype)}</span>
+              <span class="mast-summary" style="display:none">${escapeHtml(summary)}</span>
+            `}
           </div>
-          <button class="btn-icon" data-action="del-mast" data-mast="${mastIdx}">Slet mast</button>
+          <div style="display:flex;gap:4px">
+            ${mast._redigerer ? '' : `<button class="btn-icon btn-rediger" data-action="rediger-mast" data-mast="${mastIdx}" title="Redigér mast">✎</button>`}
+            <button class="btn-icon" data-action="del-mast" data-mast="${mastIdx}">Slet</button>
+          </div>
         </div>
         ${mastAutoHtml ? `<div style="padding:0 0 0.5rem">${mastAutoHtml}</div>` : ''}
 
@@ -947,6 +989,12 @@
                 <div class="field">
                   <label>Note</label>
                   <input type="text" data-field="note" data-mast="${mastIdx}" placeholder="(valgfri)" />
+                </div>
+                <div class="field" id="pilemaske-wrap-${mastIdx}" style="display:none;justify-content:flex-end">
+                  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;font-size:13px;color:var(--text)">
+                    <input type="checkbox" data-field="pilemaske" data-mast="${mastIdx}" style="width:auto;min-height:auto;cursor:pointer" />
+                    Med pilemaske
+                  </label>
                 </div>
                 <button class="btn-secondary" data-action="add-signal" data-mast="${mastIdx}">+ Tilføj signal</button>
               </div>
@@ -998,6 +1046,12 @@
                 <div class="field">
                   <label>Betegnelse (valgfri)</label>
                   <input type="text" data-field="udstyrbetegnelse" data-mast="${mastIdx}" placeholder="fx Radar 1" />
+                </div>
+                <div class="field" id="udstyr-klisterm-wrap-${mastIdx}" style="display:none;justify-content:flex-end">
+                  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;text-transform:none;font-size:13px;color:var(--text)">
+                    <input type="checkbox" data-field="udstyrklistermaerke" data-mast="${mastIdx}" style="width:auto;min-height:auto;cursor:pointer" />
+                    Med klistermærke
+                  </label>
                 </div>
                 <button class="btn-secondary" data-action="add-udstyr" data-mast="${mastIdx}">+ Tilføj udstyr</button>
               </div>
@@ -1252,6 +1306,19 @@
       matcher: sig => sig.varenr === '167-250-0501',
       varer: [{ varenr: '250-100-0365', antal: 2 }]
     },
+    {
+      beskrivelse: 'Ercolight 1-felt (2 punkt + DSI) → 1× Pil maske grøn',
+      matcher: sig => sig.type && sig.type.includes('1-felt') && sig.kategori && sig.kategori.includes('Ercolight'),
+      varer: [{ varenr: '167-650-0674', antal: 1 }]
+    },
+    {
+      beskrivelse: 'Signal med pilemaske → 2× Rød/gul + 1× Grøn',
+      matcher: sig => sig.pilemaske === true,
+      varer: [
+        { varenr: '167-650-0673', antal: 2 },
+        { varenr: '167-650-0674', antal: 1 },
+      ]
+    },
   ];
 
   const AUTO_REGLER_UDSTYR = [
@@ -1299,6 +1366,16 @@
       beskrivelse: 'Ophæng Universal DSI → 1× Vægbeslag DSI',
       matcher: u => u.varenr === '270-500-3008',
       varer: [{ varenr: '270-500-3009', antal: 1 }]
+    },
+    {
+      beskrivelse: 'Prisma fodgængertryk med klistermærke → Mærkat Tryk for Grønt',
+      matcher: u => u.klistermaerke && u.underkategori === 'Prisma',
+      varer: [{ varenr: '250-650-0050', antal: 1 }]
+    },
+    {
+      beskrivelse: 'RTB fodgængertryk med klistermærke → Makat til fodgængertryk RTB',
+      matcher: u => u.klistermaerke && u.underkategori === 'RTB',
+      varer: [{ varenr: '250-550-0051', antal: 1 }]
     },
     {
       beskrivelse: 'Klemrække → 1× Sejldugspose',
@@ -1432,6 +1509,7 @@
       const udstyrAntal = parseFloat(u.antal) || 1;
       autoVarerForUdstyr(u, mast.mastetype).forEach((v, aIdx) => {
         const override = (u._autoOverrides || {})[aIdx] || {};
+        if (override._slettet) return;
         const varenr = override.varenr || v.varenr;
         const autoAntal = override.antal !== undefined ? override.antal : v.antal;
         tæller[varenr] = (tæller[varenr] || 0) + (autoAntal * udstyrAntal);
@@ -1442,6 +1520,7 @@
       if (sig.varenr) tæller[sig.varenr] = (tæller[sig.varenr] || 0) + 1;
       autoVarerForSignal(sig).forEach((v, aIdx) => {
         const override = (sig._autoOverrides || {})[aIdx] || {};
+        if (override._slettet) return;
         const varenr = override.varenr || v.varenr;
         const antal = override.antal !== undefined ? override.antal : v.antal;
         tæller[varenr] = (tæller[varenr] || 0) + antal;
@@ -1821,7 +1900,22 @@
 
     const mIdx = parseInt(t.dataset.mast);
 
-    if (action === 'toggle-sig-section') {
+    if (action === 'rediger-mast') {
+      state.master[mIdx]._redigerer = true;
+      render();
+    } else if (action === 'annuller-mast') {
+      delete state.master[mIdx]._redigerer;
+      render();
+    } else if (action === 'gem-mast') {
+      const card = t.closest('.mast-card');
+      const idInput = card.querySelector('[data-field="mast-id-edit"]');
+      const typeSelect = card.querySelector('[data-field="mastetype-edit"]');
+      if (idInput && idInput.value.trim()) state.master[mIdx].mastId = idInput.value.trim();
+      if (typeSelect) state.master[mIdx].mastetype = typeSelect.value;
+      delete state.master[mIdx]._redigerer;
+      state.master.sort(naturalSort);
+      render();
+    } else if (action === 'toggle-sig-section') {
       const card = t.closest('.mast-card');
       const body = card.querySelector('.sig-section-body');
       const arrow = card.querySelector('.mast-section-toggle[data-action="toggle-sig-section"] .btn-collapse');
@@ -1876,6 +1970,20 @@
     } else if (action === 'del-udstyr') {
       const uIdx = parseInt(t.dataset.udstyr);
       state.master[mIdx].udstyr.splice(uIdx, 1);
+      render();
+    } else if (action === 'slet-auto-sig') {
+      const sIdx = parseInt(t.dataset.sig);
+      const aIdx = parseInt(t.dataset.auto);
+      const sig = state.master[mIdx].signaler[sIdx];
+      if (!sig._autoOverrides) sig._autoOverrides = {};
+      sig._autoOverrides[aIdx] = { _slettet: true };
+      render();
+    } else if (action === 'slet-auto-udstyr') {
+      const uIdx = parseInt(t.dataset.udstyr);
+      const aIdx = parseInt(t.dataset.auto);
+      const u = state.master[mIdx].udstyr[uIdx];
+      if (!u._autoOverrides) u._autoOverrides = {};
+      u._autoOverrides[aIdx] = { _slettet: true };
       render();
     } else if (action === 'rediger-auto-sig') {
       const sIdx = parseInt(t.dataset.sig);
@@ -1954,6 +2062,7 @@
       const betegnelse = card.querySelector(`[data-rediger-sig="betegnelse"][data-sig="${sIdx}"]`);
       const hojde = card.querySelector(`[data-rediger-sig="hojde"][data-sig="${sIdx}"]`);
       const note = card.querySelector(`[data-rediger-sig="note"][data-sig="${sIdx}"]`);
+      const pilemaskeEl = card.querySelector(`[data-rediger-sig="pilemaske"][data-sig="${sIdx}"]`);
       if (kategori) sig.kategori = kategori.value;
       if (type) {
         sig.type = type.value;
@@ -1966,6 +2075,7 @@
       if (betegnelse) sig.betegnelse = betegnelse.value.trim();
       if (hojde) sig.hojde = hojde.value;
       if (note) sig.note = note.value.trim();
+      if (pilemaskeEl !== null) sig.pilemaske = pilemaskeEl ? pilemaskeEl.checked : false;
       delete sig._redigerer;
       render();
     } else if (action === 'rediger-udstyr') {
@@ -2003,15 +2113,20 @@
       const rawAntal = erKabel
         ? (meterInput && meterInput.value ? parseFloat(meterInput.value) : 1)
         : (antalInput && antalInput.value ? parseFloat(antalInput.value) : 1);
+      const klistermEl = card.querySelector('[data-field="udstyrklistermaerke"]');
       const forlængerArm = armSelect ? armSelect.value === 'ja' : false;
+      const klistermaerke = klistermEl ? klistermEl.checked : false;
       if (!varenr) { visBesked('Vælg en vare først', 'danger'); return; }
       const vare = findVare(varenr);
       const gemAntal = isNaN(rawAntal) || rawAntal < 0.5 ? 1 : rawAntal;
-      state.master[mIdx].udstyr.push({ varenr, type: vare ? vare.beskrivelse : varenr, betegnelse, antal: gemAntal, forlængerArm });
+      const underkategoriEl = card.querySelector('[data-field="udstyrunderkategori"]');
+      const underkategori = underkategoriEl ? underkategoriEl.value : '';
+      state.master[mIdx].udstyr.push({ varenr, type: vare ? vare.beskrivelse : varenr, betegnelse, antal: gemAntal, forlængerArm, klistermaerke, underkategori });
       card.querySelector('[data-field="udstyrbetegnelse"]').value = '';
       if (meterInput) meterInput.value = '';
       if (antalInput) antalInput.value = '1';
       if (armSelect) armSelect.value = 'nej';
+      if (klistermEl) klistermEl.checked = false;
       render();
     } else if (action === 'add-signal') {
       const card = t.closest('.mast-card');
@@ -2020,15 +2135,18 @@
       const betegnelse = card.querySelector('[data-field="betegnelse"]').value.trim();
       const hojde = card.querySelector('[data-field="ny-hojde"]').value;
       const note = card.querySelector('[data-field="note"]').value.trim();
+      const pilemaskeEl = card.querySelector('[data-field="pilemaske"]');
+      const pilemaske = pilemaskeEl ? pilemaskeEl.checked : false;
       // Find varenr fra SIGNAL_KATEGORIER
       let varenr = '';
       for (const kat of SIGNAL_KATEGORIER) {
         const match = kat.typer.find(ty => ty.label === type);
         if (match) { varenr = match.varenr; break; }
       }
-      state.master[mIdx].signaler.push({ type, varenr, kategori, betegnelse, hojde, note });
+      state.master[mIdx].signaler.push({ type, varenr, kategori, betegnelse, hojde, note, pilemaske });
       card.querySelector('[data-field="betegnelse"]').value = '';
       card.querySelector('[data-field="note"]').value = '';
+      if (pilemaskeEl) pilemaskeEl.checked = false;
       render();
     }
   }
@@ -2041,6 +2159,7 @@
       opdaterOutput();
     } else if (t.dataset.field === 'signalkategori') {
       const card = t.closest('.mast-card');
+      const mIdx = parseInt(t.dataset.mast);
       const typeSelect = card.querySelector('[data-field="signaltype"]');
       const valgtKategori = t.value;
       const kategori = SIGNAL_KATEGORIER.find(k => k.kategori === valgtKategori);
@@ -2052,6 +2171,16 @@
       } else {
         typeSelect.innerHTML = '<option value="">— Vælg kategori først —</option>';
         typeSelect.disabled = true;
+      }
+      // Vis pilemaske kun for Ercolight
+      const pilemaskeWrap = card.querySelector(`#pilemaske-wrap-${mIdx}`);
+      if (pilemaskeWrap) {
+        const erErcolight = valgtKategori.includes('Ercolight');
+        pilemaskeWrap.style.display = erErcolight ? '' : 'none';
+        if (!erErcolight) {
+          const cb = pilemaskeWrap.querySelector('input[type="checkbox"]');
+          if (cb) cb.checked = false;
+        }
       }
     } else if (t.dataset.redigersig === 'kategori' || t.getAttribute('data-rediger-sig') === 'kategori') {
       // Live opdatering af type-dropdown i redigér-form
@@ -2136,11 +2265,17 @@
         const meterWrap2 = card.querySelector(`#udstyr-meter-wrap-${mIdx2}`);
         const antalWrap2 = card.querySelector(`#udstyr-antal-wrap-${mIdx2}`);
         const armWrap2 = card.querySelector(`#udstyr-arm-wrap-${mIdx2}`);
+        const klistermWrap2 = card.querySelector(`#udstyr-klisterm-wrap-${mIdx2}`);
         const erKabel2 = under.varer.length > 0 && KABEL_VARENUMRE.includes(under.varer[0].varenr);
         const erRadar2 = under.varer.length > 0 && RADAR_VARENUMRE.includes(under.varer[0].varenr);
+        const erFodgTryk = valgtUnder === 'Prisma' || valgtUnder === 'RTB';
         if (meterWrap2) meterWrap2.style.display = erKabel2 ? '' : 'none';
         if (antalWrap2) antalWrap2.style.display = erKabel2 ? 'none' : '';
         if (armWrap2) armWrap2.style.display = erRadar2 ? '' : 'none';
+        if (klistermWrap2) {
+          klistermWrap2.style.display = erFodgTryk ? '' : 'none';
+          if (!erFodgTryk) { const cb = klistermWrap2.querySelector('input'); if (cb) cb.checked = false; }
+        }
       } else {
         vareSelect.innerHTML = '<option value="">— Ingen varer endnu —</option>';
         vareSelect.disabled = true;
