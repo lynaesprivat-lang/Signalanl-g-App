@@ -1844,6 +1844,123 @@
   // ==============================
   // Event handlers
   // ==============================
+  // ==============================
+  // GitHub Sync
+  // ==============================
+  const GITHUB_STORAGE_KEY = 'signalanlaeg:github:config';
+
+  function githubIndstillinger() {
+    try { return JSON.parse(localStorage.getItem(GITHUB_STORAGE_KEY)) || {}; } catch { return {}; }
+  }
+
+  function gemGithubIndstillinger(token, owner, repo) {
+    localStorage.setItem(GITHUB_STORAGE_KEY, JSON.stringify({ token, owner, repo }));
+  }
+
+  function indlaesGithubIndstillinger() {
+    const cfg = githubIndstillinger();
+    if ($('github-token')) $('github-token').value = cfg.token || '';
+    if ($('github-owner')) $('github-owner').value = cfg.owner || '';
+    if ($('github-repo'))  $('github-repo').value  = cfg.repo  || '';
+    opdaterGithubBadge(cfg);
+  }
+
+  function opdaterGithubBadge(cfg) {
+    const badge = $('github-status-badge');
+    if (!badge) return;
+    if (cfg && cfg.token && cfg.owner && cfg.repo) {
+      badge.textContent = `${cfg.owner}/${cfg.repo}`;
+      badge.className = 'badge badge-auto';
+    } else {
+      badge.textContent = 'Ikke konfigureret';
+      badge.className = 'badge badge-neutral';
+    }
+  }
+
+  function githubVisBesked(tekst, fejl) {
+    const el = $('github-besked');
+    if (!el) return;
+    el.textContent = tekst;
+    el.style.color = fejl ? 'var(--danger)' : 'var(--success)';
+  }
+
+  async function githubApiUrl(cfg, sti) {
+    return `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${sti}`;
+  }
+
+  async function githubHent() {
+    const cfg = githubIndstillinger();
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      githubVisBesked('Udfyld token, bruger og repo først', true); return;
+    }
+    githubVisBesked('Henter fra GitHub...');
+    try {
+      const url = await githubApiUrl(cfg, 'anlaeg');
+      const res = await fetch(url, {
+        headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+      });
+      if (res.status === 404) { githubVisBesked('Ingen anlæg fundet på GitHub endnu'); return; }
+      if (!res.ok) throw new Error(`GitHub fejl: ${res.status}`);
+      const filer = await res.json();
+      let hentet = 0;
+      for (const fil of filer) {
+        if (!fil.name.endsWith('.json')) continue;
+        const filRes = await fetch(fil.download_url);
+        const data = await filRes.json();
+        const key = STORAGE_PREFIX + fil.name.replace('.json', '');
+        localStorage.setItem(key, JSON.stringify(data));
+        hentet++;
+      }
+      opdaterGemtListe();
+      githubVisBesked(`✓ Hentet ${hentet} anlæg fra GitHub`);
+    } catch (err) {
+      githubVisBesked(`Fejl: ${err.message}`, true);
+    }
+  }
+
+  async function githubPush() {
+    const cfg = githubIndstillinger();
+    if (!cfg.token || !cfg.owner || !cfg.repo) {
+      githubVisBesked('Udfyld token, bruger og repo først', true); return;
+    }
+    const noegler = gemteNoegler();
+    if (noegler.length === 0) { githubVisBesked('Ingen gemte anlæg at pushe', true); return; }
+    githubVisBesked(`Pusher ${noegler.length} anlæg til GitHub...`);
+    try {
+      let pushed = 0;
+      for (const key of noegler) {
+        const data = localStorage.getItem(key);
+        if (!data) continue;
+        const navn = key.replace(STORAGE_PREFIX, '');
+        const filnavn = `anlaeg/${navn}.json`;
+        const url = await githubApiUrl(cfg, filnavn);
+        const indhold = btoa(unescape(encodeURIComponent(data)));
+        // Tjek om fil eksisterer for at få SHA
+        let sha = undefined;
+        const tjek = await fetch(url, {
+          headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (tjek.ok) { const tj = await tjek.json(); sha = tj.sha; }
+        const body = { message: `Opdater anlæg ${navn}`, content: indhold };
+        if (sha) body.sha = sha;
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${cfg.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) throw new Error(`GitHub fejl ved ${navn}: ${res.status}`);
+        pushed++;
+      }
+      githubVisBesked(`✓ Pushede ${pushed} anlæg til GitHub`);
+    } catch (err) {
+      githubVisBesked(`Fejl: ${err.message}`, true);
+    }
+  }
+
   function tilkoblEvents() {
     $('anlaeg-nr').addEventListener('input', e => { state.nr = e.target.value; opdaterOutput(); planAutoGem(); });
     $('anlaeg-navn').addEventListener('input', e => { state.navn = e.target.value; opdaterOutput(); planAutoGem(); });
@@ -1862,7 +1979,26 @@
       e.target.value = '';
     });
 
-    // Mast-filter knapper
+    // GitHub Sync
+    $('toggle-github-btn') && $('toggle-github-btn').addEventListener('click', () => {
+      const indhold = $('github-indhold');
+      const btn = $('toggle-github-btn');
+      const skjult = indhold.style.display === 'none';
+      indhold.style.display = skjult ? '' : 'none';
+      btn.textContent = skjult ? '▾' : '▸';
+    });
+    $('github-gem-indst-btn') && $('github-gem-indst-btn').addEventListener('click', () => {
+      const token = $('github-token').value.trim();
+      const owner = $('github-owner').value.trim();
+      const repo  = $('github-repo').value.trim();
+      if (!token || !owner || !repo) { githubVisBesked('Udfyld alle 3 felter', true); return; }
+      gemGithubIndstillinger(token, owner, repo);
+      opdaterGithubBadge({ token, owner, repo });
+      githubVisBesked('✓ Indstillinger gemt');
+    });
+    $('github-hent-btn') && $('github-hent-btn').addEventListener('click', githubHent);
+    $('github-push-btn') && $('github-push-btn').addEventListener('click', githubPush);
+    indlaesGithubIndstillinger();
     $('filter-alle-btn') && $('filter-alle-btn').addEventListener('click', () => {
       mastFilter = new Set(state.master.map(m => m.mastId));
       renderMastFilter();

@@ -2,6 +2,16 @@
 
 ---
 
+## v58.5
+- **GitHub Sync** — ny sektion i appen til at synkronisere anlæg med GitHub
+  - Gem token, bruger og repo én gang
+  - "Hent fra GitHub" — henter alle anlæg fra GitHub ind i appen
+  - "Push til GitHub" — sender alle lokale anlæg op til GitHub
+  - Begge brugere kan hente/pushe med samme token
+
+## v58.4
+- **Mast 2,0m til Cykelsignal ø127** (270-200-0106) tilføjet under Master til nedgravning
+
 ## v58.3
 - **Klistermærke flueben** ved fodgængertryk — vises kun for Prisma og RTB underkategorier
   - Prisma → automatisk Mærkat "Tryk for Grønt" (250-650-0050)
