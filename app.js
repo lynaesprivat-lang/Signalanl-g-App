@@ -629,7 +629,17 @@
         localStorage.setItem(key, JSON.stringify(state));
         opdaterGemtListe();
         $('gemte-anlaeg').value = key;
-        visBesked('✓ Auto-gemt');
+        // Auto-push til GitHub hvis konfigureret
+        const cfg = githubIndstillinger();
+        if (cfg && cfg.token && cfg.owner && cfg.repo) {
+          githubPushEnkelt(key).then(() => {
+            visBesked('✓ Auto-gemt og synkroniseret');
+          }).catch(() => {
+            visBesked('✓ Auto-gemt (GitHub sync fejlede)');
+          });
+        } else {
+          visBesked('✓ Auto-gemt');
+        }
       } catch (err) { /* stille fejl */ }
     }, 15000);
   }
@@ -1715,6 +1725,15 @@
       opdaterGemtListe();
       $('gemte-anlaeg').value = key;
       visBesked('✓ Anlæg gemt');
+      // Auto-push til GitHub hvis konfigureret
+      const cfg = githubIndstillinger();
+      if (cfg && cfg.token && cfg.owner && cfg.repo) {
+        githubPushEnkelt(key).then(() => {
+          visBesked('✓ Gemt og synkroniseret til GitHub');
+        }).catch(() => {
+          // Stille fejl — lokal gem er OK
+        });
+      }
     } catch (err) {
       visBesked('Kunne ikke gemme: ' + err.message, 'danger');
     }
@@ -1900,6 +1919,34 @@
     // Auto-gem hvis udfyldt
     if (token && owner && repo) gemGithubIndstillinger(token, owner, repo);
     return { token, owner, repo };
+  }
+
+  async function githubPushEnkelt(key) {
+    const cfg = githubIndstillinger();
+    if (!cfg.token || !cfg.owner || !cfg.repo) return;
+    const data = localStorage.getItem(key);
+    if (!data) return;
+    const navn = key.replace(STORAGE_PREFIX, '');
+    const filnavn = `anlaeg/${navn}.json`;
+    const url = await githubApiUrl(cfg, filnavn);
+    const indhold = btoa(unescape(encodeURIComponent(data)));
+    let sha = undefined;
+    const tjek = await fetch(url, {
+      headers: { 'Authorization': `token ${cfg.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (tjek.ok) { const tj = await tjek.json(); sha = tj.sha; }
+    const body = { message: `Opdater anlæg ${navn}`, content: indhold };
+    if (sha) body.sha = sha;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${cfg.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(`${res.status}`);
   }
 
   async function githubHent() {

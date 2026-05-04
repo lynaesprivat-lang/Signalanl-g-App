@@ -2,6 +2,9 @@
 
 ---
 
+## v58.9
+- Rettet: github:config filer springes over ved Hent fra GitHub — vises ikke længere i anlægslisten
+
 ## v58.8
 - Rettet: Behøver ikke trykke "Gem indstillinger" — Push og Hent auto-gemmer indstillinger og bruger dem direkte fra felterne
 
