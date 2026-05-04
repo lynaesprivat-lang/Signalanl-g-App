@@ -2,6 +2,9 @@
 
 ---
 
+## v58.6
+- Rettet: GitHub Push fejlede med 409 fordi GitHub config-nøglen blev pushet som anlæg
+
 ## v58.5
 - **GitHub Sync** — ny sektion i appen til at synkronisere anlæg med GitHub
   - Gem token, bruger og repo én gang

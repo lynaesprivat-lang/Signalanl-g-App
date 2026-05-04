@@ -1686,7 +1686,7 @@
     const keys = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith(STORAGE_PREFIX)) keys.push(k);
+      if (k && k.startsWith(STORAGE_PREFIX) && !k.includes('github')) keys.push(k);
     }
     return keys.sort();
   }
