@@ -1919,6 +1919,7 @@
       let hentet = 0;
       for (const fil of filer) {
         if (!fil.name.endsWith('.json')) continue;
+        if (fil.name.includes('github')) continue; // spring config over
         const filRes = await fetch(fil.download_url);
         const data = await filRes.json();
         const key = STORAGE_PREFIX + fil.name.replace('.json', '');

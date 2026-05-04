@@ -2,6 +2,9 @@
 
 ---
 
+## v58.8
+- Rettet: Behøver ikke trykke "Gem indstillinger" — Push og Hent auto-gemmer indstillinger og bruger dem direkte fra felterne
+
 ## v58.7
 - Rettet: github:config vistes i listen over gemte anlæg
 
