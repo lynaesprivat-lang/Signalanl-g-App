@@ -2,6 +2,11 @@
 
 ---
 
+## v59
+- **Auto-backup til GitHub** — anlæg pushes automatisk til GitHub når du gemmer (manuel Gem) eller auto-gem kører efter 15 sek
+- Viser "✓ Gemt og synkroniseret til GitHub" hvis sync lykkes
+- Kræver at GitHub Sync er konfigureret — virker stille i baggrunden
+
 ## v58.9
 - Rettet: github:config filer springes over ved Hent fra GitHub — vises ikke længere i anlægslisten
 

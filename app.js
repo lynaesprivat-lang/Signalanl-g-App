@@ -2608,6 +2608,11 @@
     opdaterFormFelter();
     opdaterGemtListe();
     render();
+    // Auto-hent fra GitHub ved opstart hvis konfigureret
+    const cfg = githubIndstillinger();
+    if (cfg && cfg.token && cfg.owner && cfg.repo) {
+      githubHent().catch(() => {}); // stille fejl ved offline
+    }
   }
 
   if (document.readyState === 'loading') {
