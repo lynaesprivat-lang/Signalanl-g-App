@@ -1,1 +1,1 @@
-{"nr":"1901-312","navn":"Ishøj Stationsvej/Ishøj Parkvej","master":[{"mastId":"S1","mastetype":"Lav DSI mast","udstyr":[],"signaler":[]}]}
+{"nr":"1901-312","navn":"Ishøj Stationsvej/Ishøj Parkvej","master":[{"mastId":"S1","mastetype":"Lav DSI mast","udstyr":[],"signaler":[{"type":"AluStar DSI 3-felt","varenr":"INTERN-SIG-ALUDSI-3","kategori":"Swarco AluStar DSI","betegnelse":"B1","hojde":"Lavt","note":"Topmonteret","pilemaske":false,"_autoOverrides":{"0":{"_slettet":true}}}]}]}
