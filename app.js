@@ -105,6 +105,15 @@
       ]
     },
     {
+      kategori: 'Sunburst DSI',
+      typer: [
+        { label: 'Sunburst DSI 4-lys',  varenr: 'INTERN-SIG-SUNBURST-4' },
+        { label: 'Sunburst DSI 3-lys',  varenr: 'INTERN-SIG-SUNBURST-3' },
+        { label: 'Sunburst DSI 2-lys',  varenr: 'INTERN-SIG-SUNBURST-2' },
+        { label: 'Sunburst DSI 1-lys',  varenr: 'INTERN-SIG-SUNBURST-1' },
+      ]
+    },
+    {
       kategori: 'Cykelsignaler',
       typer: [
         { label: 'Lanterne 4-felt SEA',              varenr: '167-250-0914' },
@@ -141,6 +150,8 @@
     'Høj DSI mast':              '280-850-0009',
     'DSI Galgemast cykel':       '280-850-0009',
     'DSI Galgemast høj':         '280-850-0009',
+    'DSI Video mast 10m':        '280-850-0009',
+    'DSI Kombimast':             '280-850-0009',
     'Alu-round 1,4m Ø135':           '280-850-0010', // 140-160mm
     'Alu-round 2,1m Ø135 til Cykelsignal': '280-850-0010',
     'Alu-round 3,1m Ø135':           '280-850-0010', // 140-160mm
@@ -195,6 +206,8 @@
       varer: [
         { varenr: '270-200-0144', beskrivelse: 'DSI Galgemast cykel', bem: '' },
         { varenr: '270-200-0146', beskrivelse: 'DSI Galgemast høj', bem: '' },
+        { varenr: 'INTERN-MAST-DSIVIDEO', beskrivelse: 'DSI Video mast 10m', bem: '' },
+        { varenr: 'INTERN-MAST-DSIKOMBI', beskrivelse: 'DSI Kombimast', bem: '' },
       ]
     },
     {
@@ -474,6 +487,10 @@
         { varenr: 'INTERN-SIG-GLDSI-3',  beskrivelse: 'Glødepære DSI 3-felt', bem: '' },
         { varenr: 'INTERN-SIG-GLDSI-2',  beskrivelse: 'Glødepære DSI 2-felt', bem: '' },
         { varenr: 'INTERN-SIG-GLDSI-1',  beskrivelse: 'Glødepære DSI 1-felt', bem: '' },
+        { varenr: 'INTERN-SIG-SUNBURST-4', beskrivelse: 'Sunburst DSI 4-lys', bem: '' },
+        { varenr: 'INTERN-SIG-SUNBURST-3', beskrivelse: 'Sunburst DSI 3-lys', bem: '' },
+        { varenr: 'INTERN-SIG-SUNBURST-2', beskrivelse: 'Sunburst DSI 2-lys', bem: '' },
+        { varenr: 'INTERN-SIG-SUNBURST-1', beskrivelse: 'Sunburst DSI 1-lys', bem: '' },
       ]
     },
     {
@@ -547,10 +564,12 @@
     {
       gruppe: 'DSI master',
       typer: [
-        { label: 'Lav DSI mast',       varenr: '270-200-0141' },
-        { label: 'Høj DSI mast',       varenr: '270-200-0142' },
-        { label: 'DSI Galgemast cykel', varenr: '270-200-0144' },
-        { label: 'DSI Galgemast høj',  varenr: '270-200-0146' },
+        { label: 'Lav DSI mast',            varenr: '270-200-0141' },
+        { label: 'Høj DSI mast',            varenr: '270-200-0142' },
+        { label: 'DSI Galgemast cykel',     varenr: '270-200-0144' },
+        { label: 'DSI Galgemast høj',       varenr: '270-200-0146' },
+        { label: 'DSI Video mast 10m',      varenr: 'INTERN-MAST-DSIVIDEO' },
+        { label: 'DSI Kombimast',           varenr: 'INTERN-MAST-DSIKOMBI' },
       ]
     },
     {
@@ -1266,7 +1285,7 @@
   const AUTO_REGLER_SIGNAL = [
     {
       beskrivelse: 'DSI signal → 1× Konsol opadvendt DSI',
-      matcher: sig => sig.kategori && sig.kategori.includes('DSI'),
+      matcher: sig => sig.kategori && sig.kategori.includes('DSI') && !(sig.kategori === 'Sunburst DSI' && sig.type && sig.type.includes('4-lys')),
       varer: [{ varenr: '270-500-3002', antal: 1 }]
     },
     {

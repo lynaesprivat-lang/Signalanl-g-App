@@ -2,6 +2,12 @@
 
 ---
 
+## v59.2
+- **DSI Video mast 10m** og **DSI Kombimast** tilføjet under DSI master (uden varenr)
+- **Sunburst DSI** signalgruppe tilføjet med 4/3/2/1-lys
+  - 3/2/1-lys → auto: Konsol opadvendt DSI + kabel (lav/høj)
+  - 4-lys → ingen konsol auto
+
 ## v59
 - **Auto-backup til GitHub** — anlæg pushes automatisk til GitHub når du gemmer (manuel Gem) eller auto-gem kører efter 15 sek
 - Viser "✓ Gemt og synkroniseret til GitHub" hvis sync lykkes
