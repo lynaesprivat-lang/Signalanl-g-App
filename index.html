@@ -12,9 +12,14 @@
 </head>
 <body>
   <header class="app-header">
-    <h1>Signalanlæg</h1>
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+      <h1>Signalanlæg</h1>
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <button title="Opdater app" onclick="window.location.href=window.location.href.split('?')[0]+'?v='+Date.now()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:white;font-size:20px;cursor:pointer;padding:6px 12px;line-height:1;min-height:36px">↺</button>
+        <span class="app-credit">NIL/KLO</span>
+      </div>
+    </div>
     <p class="subtitle">Kategoriseringsværktøj for master og signaler</p>
-    <span class="app-credit">NIL/KLO</span>
   </header>
 
   <main class="app-main">
