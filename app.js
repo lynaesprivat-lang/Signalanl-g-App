@@ -1758,6 +1758,28 @@
     }
   }
 
+  function omdoebAnlaeg(key) {
+    if (!key) { visBesked('Vælg et anlæg først', 'danger'); return; }
+    const gammeltNavn = key.replace(STORAGE_PREFIX, '');
+    const nytNavn = prompt(`Nyt anlægsnummer/navn for "${gammeltNavn}":`, gammeltNavn);
+    if (!nytNavn || nytNavn.trim() === '' || nytNavn.trim() === gammeltNavn) return;
+    const nyKey = STORAGE_PREFIX + nytNavn.trim().replace(/[^a-zA-Z0-9æøåÆØÅ_-]/g, '_');
+    const data = localStorage.getItem(key);
+    if (!data) return;
+    // Gem under nyt navn
+    localStorage.setItem(nyKey, data);
+    // Slet gammelt
+    localStorage.removeItem(key);
+    opdaterGemtListe();
+    $('gemte-anlaeg').value = nyKey;
+    visBesked(`✓ Omdøbt til ${nytNavn.trim()}`);
+    // Push til GitHub hvis konfigureret
+    const cfg = githubIndstillinger();
+    if (cfg && cfg.token && cfg.owner && cfg.repo) {
+      githubPushEnkelt(nyKey).catch(() => {});
+    }
+  }
+
   function indlaesAnlaeg(key) {
     if (!key) return;
     try {
@@ -2051,7 +2073,7 @@
 
     $('gem-btn').addEventListener('click', gemAnlaeg);
     $('indlaes-btn').addEventListener('click', () => indlaesAnlaeg($('gemte-anlaeg').value));
-    $('slet-btn').addEventListener('click', () => sletAnlaeg($('gemte-anlaeg').value));
+    $('omdoeb-btn').addEventListener('click', () => omdoebAnlaeg($('gemte-anlaeg').value));
 
     $('export-json-btn').addEventListener('click', eksporterJson);
     $('export-json-enkelt-btn') && $('export-json-enkelt-btn').addEventListener('click', eksporterJsonEnkelt);
